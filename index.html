@@ -35,10 +35,16 @@
             border: 2px solid black;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-end; /* positionner le texte en bas */
             overflow: hidden;
             background-size: cover;
             background-position: center;
+            position: relative;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            text-shadow: 1px 1px 3px black; /* pour que le texte soit lisible */
+            padding-bottom: 10px;
         }
 
         /* Cercle des légumes avec nouvelle image en background */
@@ -66,10 +72,10 @@
 
     <div class="circle-container">
         <div class="circle legumes">
-            <!-- Image de légumes en background -->
+            Légumes
         </div>
         <div class="circle fruits">
-            <!-- Image de fruits en background -->
+            Fruits
         </div>
     </div>
 
