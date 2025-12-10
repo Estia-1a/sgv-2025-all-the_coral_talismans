@@ -1,185 +1,25 @@
+.encadrement {
+    border: 2px solid #000;   /* Bordure noire */
+    border-radius: 8px;       /* Coins arrondis (optionnel) */
+    padding: 16px;            /* Espace intérieur */
+    margin: 16px auto;        /* Espace extérieur et centrage */
+    max-width: 600px;         /* Largeur max (responsive) */
+    background: #fff;         /* Fond blanc (ou transparent) */
+    box-sizing: border-box;   /* Bordure incluse dans la largeur */
+  }
 
-/* ===== Thème fruits & légumes ===== */
-:root {
-    --bg: #ffffff;
-    --page: #f6fbf7;         /* vert très clair */
-    --text: #1f2937;
-    --muted: #64748b;
-    --border: #e2e8f0;
-    --primary: #2ca66f;      /* vert basilic */
-    --primary-hover: #23895b;
-    --accent: #f59e0b;       /* orangé (agrume) */
-    --danger: #ef4444;
-    --shadow: 0 10px 20px rgba(16, 24, 40, 0.06);
-    --radius: 14px;
-    --container: 1100px;
+  /* Titre en rouge dans le cadre */
+  .coulor-texte-rouge {
+    color: #d32f2f;           /* Rouge (tu peux mettre red ou #ff0000) */
+    font-size: 1.6rem;
+    margin: 0 0 8px 0;        /* Espace sous le titre */
+    font-weight: 600;
   }
-  
-  * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; }
-  body {
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    background: var(--page);
-    color: var(--text);
-    line-height: 1.55;
-  }
-  
-  /* ===== Containers ===== */
-  .container { width: 100%; max-width: var(--container); margin: 0 auto; padding: 0 16px; }
-  
-  /* ===== Header ===== */
-  .site-header {
-    background: var(--bg);
-    border-bottom: 1px solid var(--border);
-    position: sticky; top: 0; z-index: 10;
-  }
-  .header-inner {
-    display: grid;
-    grid-template-columns: 1fr auto auto;
-    align-items: center;
-    gap: 16px;
-    padding: 12px 0;
-  }
-  .logo { font-weight: 800; text-decoration: none; color: var(--primary); font-size: 18px; }
-  .header-nav ul, .footer-inner ul { display: flex; gap: 18px; list-style: none; margin: 0; padding: 0; }
-  .header-nav a, .mini-cart { text-decoration: none; color: var(--text); }
-  .header-nav a:hover, .mini-cart:hover { color: var(--primary); }
-  
-  /* ===== Breadcrumb ===== */
-  .breadcrumb { font-size: 14px; color: var(--muted); margin: 16px auto; }
-  .breadcrumb ol { list-style: none; display: flex; gap: 8px; padding: 0; margin: 0; }
-  .breadcrumb a { color: var(--muted); text-decoration: none; }
-  .breadcrumb a:hover { color: var(--text); }
-  .breadcrumb li+li::before { content: "›"; margin: 0 4px; color: var(--border); }
-  
-  /* ===== Titles ===== */
-  h1 { font-size: 28px; margin: 12px 0 8px; }
-  
-  /* ===== Notice ===== */
-  .notice {
-    background: #e8fff3;
-    border: 1px solid #c9f5dc;
-    color: #1e7f52;
-    padding: 12px 16px;
-    border-radius: var(--radius);
-  }
-  
-  /* ===== Cart layout ===== */
-  .cart {
-    display: grid;
-    grid-template-columns: 1.7fr 1fr;
-    gap: 24px;
-    margin: 24px 0 64px;
-  }
-  @media (max-width: 900px) {
-    .cart { grid-template-columns: 1fr; }
-  }
-  
-  /* ===== Cart list ===== */
-  .cart-list {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 8px;
+
+  /* Texte générique dans le cadre (si besoin) */
+  .coulor-texte-noir {
     margin: 0;
+    color: #333;
+    line-height: 1.5;
   }
-  .cart-item {
-    display: grid;
-    grid-template-columns: 110px 1fr auto;
-    gap: 16px;
-    padding: 16px;
-    border-bottom: 1px solid var(--border);
-  }
-  .cart-item:last-child { border-bottom: none; }
-  
-  .item-media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-  }
-  
-  .item-title { font-size: 18px; margin: 0 0 4px; }
-  .item-title a { color: var(--text); text-decoration: none; }
-  .item-title a:hover { color: var(--primary); }
-  .item-variant, .item-sku, .item-origin { margin: 0; color: var(--muted); }
-  
-  .item-controls { display: flex; gap: 12px; align-items: center; margin-top: 12px; }
-  .item-controls input[type="number"] {
-    width: 88px;
-    padding: 8px 10px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background: #fff;
-  }
-  .btn-link {
-    border: none;
-    background: none;
-    color: var(--danger);
-    padding: 0;
-    cursor: pointer;
-  }
-  .btn-link:hover { text-decoration: underline; }
-  
-  .item-price-block { text-align: right; }
-  .unit-price, .line-price { margin: 0; }
-  
-  /* ===== Cart actions ===== */
-  .cart-actions {
-    display: flex;
-    gap: 12px;
-    margin: 12px 0 24px;
-  }
-  .btn-secondary {
-    display: inline-flex; align-items: center; justify-content: center;
-    padding: 10px 14px; border-radius: 10px; background: #e9f7ef; color: #135c39; text-decoration: none;
-  }
-  .btn-secondary:hover { background: #dff1e6; }
-  
-  /* ===== Summary column ===== */
-  .cart-summary {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 16px;
-    height: fit-content;
-  }
-  .cart-summary h2 { margin-top: 0; }
-  
-  .promo-form, .shipping-form { display: grid; gap: 8px; margin-bottom: 16px; }
-  .promo-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
-  input[type="text"], select {
-    padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: #fff;
-  }
-  .help { color: var(--muted); }
-  
-  .totals { margin: 16px 0; }
-  .totals .row { display: grid; grid-template-columns: 1fr auto; padding: 8px 0; border-top: 1px dashed var(--border); }
-  .totals .row:first-child { border-top: none; }
-  .totals .grand dt { font-weight: 700; }
-  .totals .grand dd { font-size: 20px; font-weight: 800; }
-  
-  .checkout-buttons { display: grid; gap: 10px; }
-  .btn, .btn-outline, .btn.primary {
-    display: inline-flex; align-items: center; justify-content: center;
-    padding: 12px 16px; border-radius: 10px; text-decoration: none; cursor: pointer;
-  }
-  .btn.primary, .btn { background: var(--primary); color: #fff; border: 1px solid var(--primary); }
-  .btn.primary:hover, .btn:hover { background: var(--primary-hover); }
-  .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
-  .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
-  
-  /* ===== Footer ===== */
-  .site-footer {
-    background: var(--bg);
-    border-top: 1px solid var(--border);
-    margin-top: 40px;
-  }
-  .footer-inner {
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 16px; padding: 16px 0;
-  }
-  
+
