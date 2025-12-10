@@ -4,43 +4,42 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Panier – **Nom de la boutique**</title>
-  <ttps://fonts.googleapis.com
-  https://fonts.gstatic.com
-  <!-- Police système pour simplicité; remplace si besoin -->
+  <title>Panier – **Ferme de Bidart**</title>
   styles.css
+  <meta name="description" content="Panier de fruits et légumes de saison, locaux et frais.">
 </head>
 <body>
   <!-- En-tête -->
   <header class="site-header">
     <div class="container header-inner">
       **/url-accueil**
-        <!-- Remplace le texte ou mets ton logo -->
-        <span>**Nom de la boutique**</span>
+        <span>🥬 **Ferme de Bidart**</span>
       </a>
       <nav class="header-nav" aria-label="Navigation principale">
         <ul>
-          <li><a href="**/url-catalogogue</a></li>
-          <li>**/url-nouveautes**Nouveautés</a></li>
-          <li><a href="**/url*Contact</a></li>
+          <li>**/url-catalogue**Produits</a></li>
+          <li>**/url-paniers-semaine**Panier de la semaine</a></li>
+          <li>**/url-contact**Contact</a></li>
         </ul>
       </nav>
-      <a class="mini-cart" href="**/url-panier**" aria
+      **/url-panier**Panier</a>
+    </div>
+  </header>
 
   <!-- Fil d’Ariane -->
   <nav class="breadcrumb container" aria-label="Fil d’Ariane">
     <ol>
-      <li><a href="**/url-accueil</a></li>
+      <li>**/url-accueil**Accueil</a></li>
       <li aria-current="page">Panier</li>
     </ol>
   </nav>
 
   <main class="container">
-    <h1>Votre panier</h1>
+    <h1>Votre panier de fruits & légumes</h1>
 
-    <!-- Alerte / info -->
+    <!-- Message info -->
     <div class="notice" role="status">
-      Livraison gratuite dès **59,00 €** d’achat.
+      🌱 Livraison locale gratuite dès **35,00 €** d’achat. Récolté le matin, livré l’après-midi.
     </div>
 
     <section class="cart">
@@ -49,58 +48,80 @@
         <!-- ARTICLE 1 -->
         <li class="cart-item">
           <div class="item-media">
-            **/images/produit-1.jpg**
+            **/images/tomates-coeur-boeuf.jpg**
           </div>
           <div class="item-info">
             <h2 class="item-title">
-              **/url-produit-1****Nom produit 1**</a>
+              **/url-produit-tomates****Tomates cœur de bœuf – plein champ**</a>
             </h2>
-            <p class="item-variant">**Couleur / Taille / Variante**</p>
-            <p class="item-sku">SKU : **SKU-0001**</p>
+            <p class="item-variant">Catégorie : **Fruits/Légumes – au kg**</p>
+            <p class="item-sku">SKU : **LEG-TOM-001**</p>
+            <p class="item-origin">Origine : **Bidart (64)** • Agriculture raisonnée</p>
 
             <div class="item-controls">
-              <label for="qty-1">Quantité</label>
-              <!-- Remplace min/max si besoin -->
-              <input id="qty-1" name="qty-1" type="number" inputmode="numeric" value="1" min="1" max="99" aria-label="Quantité pour **Nom produit 1**">
-              <button class="btn-link remove" type="button" aria-label="Retirer **Nom produit 1** du panier">
-                Retirer
-              </button>
+              <label for="qty-1">Quantité (kg)</label>
+              <input id="qty-1" name="qty-1" type="number" inputmode="numeric" value="1" min="1" max="50" aria-label="Quantité pour **Tomates cœur de bœuf**">
+              <button class="btn-link remove" type="button" aria-label="Retirer **Tomates cœur de bœuf** du panier">Retirer</button>
             </div>
           </div>
           <div class="item-price-block">
-            <p class="unit-price">Prix unitaire : <strong>**29,90 €**</strong></p>
-            <p class="line-price">Total article : <strong>**29,90 €**</strong></p>
+            <p class="unit-price">Prix au kg : <strong>**4,90 €**</strong></p>
+            <p class="line-price">Total article : <strong>**4,90 €**</strong></p>
           </div>
         </li>
 
         <!-- ARTICLE 2 -->
         <li class="cart-item">
           <div class="item-media">
-            <img src="**/images/produit-2.jpg**" alt="**         <div class="item-info">
+            **/images/pommes-gala.jpg**
+          </div>
+          <div class="item-info">
             <h2 class="item-title">
-              **/url-produit-2****Nom produit 2**</a>
+              **/url-produit-pommes****Pommes Gala – croquantes**</a>
             </h2>
-            <p class="item-variant">**Couleur / Taille / Variante**</p>
-            <p class="item-sku">SKU : **SKU-0002**</p>
+            <p class="item-variant">Catégorie : **Fruits – au kg**</p>
+            <p class="item-sku">SKU : **FRU-POM-002**</p>
+            <p class="item-origin">Origine : **Pays Basque** • Sans traitement après récolte</p>
 
             <div class="item-controls">
-              <label for="qty-2">Quantité</label>
-              <input id="qty-2" name="qty-2" type="number" inputmode="numeric" value="2" min="1" max="99" aria-label="Quantité pour **Nom produit 2**">
-              <button class="btn-link remove" type="button" aria-label="Retirer **Nom produit 2** du panier">
-                Retirer
-              </button>
+              <label for="qty-2">Quantité (kg)</label>
+              <input id="qty-2" name="qty-2" type="number" inputmode="numeric" value="2" min="1" max="50" aria-label="Quantité pour **Pommes Gala**">
+              <button class="btn-link remove" type="button" aria-label="Retirer **Pommes Gala** du panier">Retirer</button>
             </div>
           </div>
           <div class="item-price-block">
-            <p class="unit-price">Prix unitaire : <strong>**49,00 €**</strong></p>
-            <p class="line-price">Total article : <strong>**98,00 €**</strong></p>
+            <p class="unit-price">Prix au kg : <strong>**3,20 €**</strong></p>
+            <p class="line-price">Total article : <strong>**6,40 €**</strong></p>
+          </div>
+        </li>
+
+        <!-- ARTICLE 3 -->
+        <li class="cart-item">
+          <div class="item-media">
+            <img src="**/images/panier-saison.jpg**" alt="**Panier de<div class="item-info">
+            <h2 class="item-title">
+              **/url-produit-panier-saison****Panier de saison – 6 à 8 variétés**</a>
+            </h2>
+            <p class="item-variant">Contenu : **selon récolte du jour**</p>
+            <p class="item-sku">SKU : **BOX-SAI-003**</p>
+            <p class="item-origin">Origine : **ferme + producteurs voisins**</p>
+
+            <div class="item-controls">
+              <label for="qty-3">Quantité</label>
+              <input id="qty-3" name="qty-3" type="number" inputmode="numeric" value="1" min="1" max="20" aria-label="Quantité pour **Panier de saison**">
+              <button class="btn-link remove" type="button" aria-label="Retirer **Panier de saison** du panier">Retirer</button>
+            </div>
+          </div>
+          <div class="item-price-block">
+            <p class="unit-price">Prix unitaire : <strong>**19,90 €**</strong></p>
+            <p class="line-price">Total article : <strong>**19,90 €**</strong></p>
           </div>
         </li>
       </ul>
 
       <!-- Actions secondaires -->
       <div class="cart-actions">
-        **/url-catalogue**Continuer mes achats</a>
+        <a class="btn-secondary" href="**/urls</a>
         <button class="btn-link" type="button">Vider le panier</button>
       </div>
 
@@ -109,23 +130,28 @@
         <h2 id="resume-titre">Résumé de la commande</h2>
 
         <!-- Code promo -->
-        <form class="promo-form" action="**/url-appliquer-code-promo**" method="post" novalidate<div class="promo-row">
-            <input id="promo" name="promo" type="text" placeholder="**VOTRECODE**" aria-describedby="promo-help">
+        <form class="promo-form" action="**/url-appliquer-code-promo**" method="post>
+          <div class="promo-row">
+            <input id="promo" name="promo" type="text" placeholder="**TERROIR5**" aria-describedby="promo-help">
             <button class="btn" type="submit">Appliquer</button>
           </div>
-          <small id="promo-help" class="help">Entrez votre bon de réduction si vous en avez un.</small>
+          <small id="promo-help" class="help">Ex. **TERROIR5** pour -5% (si actif).</small>
         </form>
 
-        <!-- Estimation livraison -->
-        <form class="shipping-form" action="**/url-estimer-livraison**" method="post"    <select id="country" name="country">
-            <option value="FR">France</option>
-            <option value="BE">Belgique</option>
-            <option value="CH">Suisse</option>
-            <option value="**AUTRE**">**Autre pays**</option>
+        <!-- Estimation livraison locale -->
+        <form class="shipping-form" action="**/url-estimer-livraison**" method="post" novalid      <select id="zone" name="zone">
+            <option value="Biarritz">Biarritz</option>
+            <option value="Bidart">Bidart</option>
+            <option value="Bayonne">Bayonne</option>
+            <option value="**AUTRE**">**Autre commune**</option>
           </select>
 
-          <label for="postal">Code postal</label>
-          <input id="postal" name="postal" type="text" inputmode="numeric" placeholder="**75001**">
+          <label for="slot">Créneau souhaité</label>
+          <select id="slot" name="slot">
+            <option value="AM">Matin (9h–12h)</option>
+            <option value="PM">Après-midi (14h–18h)</option>
+          </select>
+
           <button class="btn-outline" type="submit">Estimer la livraison</button>
         </form>
 
@@ -133,33 +159,34 @@
         <dl class="totals">
           <div class="row">
             <dt>Sous-total</dt>
-            <dd><strong>**127,90 €**</strong></dd>
+            <dd><strong>**31,20 €**</strong></dd>
           </div>
           <div class="row">
             <dt>Livraison</dt>
-            <dd><strong>**Gratuite / 5,90 €**</strong></dd>
+            <dd><strong>**Gratuite dès 35 € / 3,00 €**</strong></dd>
           </div>
           <div class="row">
             <dt>Taxes</dt>
-            <dd><strong>**Incluses / 20%**</strong></dd>
+            <dd><strong>**TVA incluse / 5,5% ALIM**</strong></dd>
           </div>
           <div class="row grand">
             <dt>Total</dt>
-            <dd><strong>**127,90 €**</strong></dd>
+            <dd><strong>**34,20 €**</strong></dd>
           </div>
         </dl>
 
         <!-- Boutons de checkout -->
         <div class="checkout-buttons">
           **/url-checkout**Passer la commande</a>
-          **/url-paiement-express**Paiement express</a>
+          **/url-paiement-express**Apple Pay / CB</a>
         </div>
 
         <!-- Confiance -->
         <ul class="trust-badges" role="list">
+          <li>✓ Produits locaux & de saison</li>
+          <li>✓ Récolté le jour même</li>
           <li>✓ Paiement sécurisé</li>
-          <li>✓ Retours sous **30 jours**</li>
-          <li>✓ Service client **email/phone**</li>
+          <li>✓ Retours sous **24h** si produit abîmé</li>
         </ul>
       </aside>
     </section>
@@ -170,18 +197,18 @@
     <div class="container footer-inner">
       <nav aria-label="Liens de pied de page">
         <ul>
-          <li><a/url-cgv**CGV</a></li>
-          <li>**/url-retours**Retours</a></li>
+          <li>**/url-cgv**CGV</a></li>
+          <li>**/url-retours**Retours & remboursement</a></li>
           <li>**/url-confidentialite**Confidentialité</a></li>
           <li>**/url-contact**Contact</a></li>
         </ul>
       </nav>
-      <p>&copy; <span id="year"></span> **Nom de la boutique**. Tous droits réservés.</p>
+      <p>&copy; <span id="year"></span> **Ferme de Bidart** – Tous droits réservés.</p>
     </div>
     <script>
-      // (Optionnel) Met l'année courante dans le footer
       document.getElementById('year').textContent = new Date().getFullYear();
     </script>
   </footer>
 </body>
 </html>
+``
