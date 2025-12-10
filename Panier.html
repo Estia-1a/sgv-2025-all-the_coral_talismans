@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Panier – **Ferme de Bidart**</title>
+  styles.css
+</head>
+<body>
+  <main class="container">
+    <!-- Titre -->
+    <h1 class="page-title">Les légumes et fruits de **Bidart**</h1>
+
+    <!-- Images rondes (comme ton exemple) -->
+    <div class="circle-images">
+      <figure class="circle">
+        **/images/legumes.jpg**
+        <figcaption>**Légumes de saison**</figcaption>
+      </figure>
+      <figure class="circle">
+        <img src="**/images/fruits.jpg**" alt="**Assortiment de fruits**igcaption>
+      </figure>
+    </div>
+
+    <!-- CASE 1 : Présentation (style panneau bordé) -->
+    <section class="panel">
+      <div class="panel-inner">
+        <p>Au cœur du Pays Basque, notre exploitation familiale cultive les terres fertiles de **Bidart** depuis plusieurs générations.</p>
+        <p>Entre océan et collines, nous bénéficions d’un climat privilégié qui donne à nos fruits et légumes des saveurs authentiques.</p>
+        <p>Nous cultivons une grande diversité au rythme des saisons : tomates, courgettes, haricots verts, salades, fruits croquants…</p>
+        <p>Notre approche respecte la terre et ses cycles naturels, avec des méthodes **raisonnées** et **durables**.</p>
+        <p>En circuit court, nous vous offrons des produits fraîchement récoltés le matin même.</p>
+        <p>Venez goûter aux fruits de notre travail et de notre terre !</p>
+      </div>
+    </section>
+
+    <!-- CASE 2 : Panier (liste d'articles) -->
+    <section class="panel">
+      <header class="panel-header">
+        <h2>Votre panier</h2>
+        <span class="badge">Livraison locale gratuite dès <strong>**35,00 €**</strong></span>
+      </header>
+
+      <ul class="cart-list" role="list">
+        <li class="cart-item">
+          <div class="item-media">
+            <img src="**/imagespg**
+          </div>
+          <div class="item-info">
+            <h3>**Tomates cœur de bœuf**</h3>
+            <p class="muted">Origine : **Bidart (64)** • Au kg</p>
+            <div class="controls">
+              <label for="qty-1">Quantité (kg)</label>
+              <input id="qty-1" type="number" value="1" min="1" max="50">
+              <button class="link-danger" type="button">Retirer</button>
+            </div>
+          </div>
+          <div class="item-price">
+            <p>Prix/kg : <strong>**4,90 €**</strong></p>
+            <p>Total : <strong>**4,90 €**</strong></p>
+          </div>
+        </li>
+
+        <li class="cart-item">
+          <div class="item-media">
+            **/images/pommes.jpg**
+          </div>
+          <div class="item-info">
+            <h3>**Pommes Gala**</h3>
+            <p class="muted">Origine : **Pays Basque** • Au kg</p>
+            <div class="controls">
+              <label for="qty-2">Quantité (kg)</label>
+              <input id="qty-2" type="number" value="2" min="1" max="50">
+              <button class="link-danger" type="button">Retirer</button>
+            </div>
+          </div>
+          <div class="item-price">
+            <p>Prix/kg : <strong>**3,20 €**</strong></p>
+            <p>Total : <strong>**6,40 €**</strong></p>
+          </div>
+        </li>
+      </ul>
+
+      <hr class="panel-sep">
+
+      <!-- Résumé -->
+      <div class="summary-grid">
+        <dl>
+          <div class="row"><dt>Sous-total</dt><dd><strong>**11,30 €**</strong></dd></div>
+          <div class="row"><dt>Livraison</dt><dd><strong>**Gratuite / 3,00 €**</strong></dd></div>
+          <div class="row grand"><dt>Total</dt><dd><strong>**14,30 €**</strong></dd></div>
+        </dl>
+               <div class="cta">
+          **/url-checkout**Passer la commande</a>
+          **/url-catalogue**Continuer mes achats</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</body>
