@@ -1,9 +1,202 @@
-.container {
-  border: 2px solid black;
-  width: 80%;
-  height: 200px;
-  margin: 20px auto;
+/* Base de la page et de l'encadrement du navigateur */
+body {
+    font-family: sans-serif;
+    margin: 20px;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
 }
-.box {
-  min-width: 100px;
-  min-height: 100px;
+
+.browser-frame {
+    width: 90%;
+    max-width: 900px;
+    border: 2px solid #333;
+    border-radius: 8px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+    background-color: white;
+}
+
+/* En-tête du navigateur (barre d'adresse) */
+.browser-header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    background-color: #eee;
+}
+
+.nav-controls {
+    display: flex;
+    gap: 8px;
+    margin-right: 15px;
+}
+
+.control-btn {
+    font-size: 18px;
+    cursor: pointer;
+    border: 1px solid #aaa;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background-color: #ddd;
+}
+
+.address-bar {
+    flex-grow: 1;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.content {
+    padding: 20px;
+}
+
+/* Section de recherche */
+.search-section {
+    margin-bottom: 30px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 5px 15px;
+    background-color: white;
+}
+
+.search-bar input {
+    border: none;
+    flex-grow: 1;
+    padding: 8px;
+    font-size: 16px;
+    outline: none;
+}
+
+.search-icon, .mic-icon {
+    font-size: 18px;
+    color: #555;
+    cursor: pointer;
+}
+
+/* Grille des produits */
+.product-grid {
+    display: grid;
+    /* 2 colonnes comme dans le croquis */
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 20px;
+}
+
+/* Carte de produit */
+.product-card {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 15px;
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.product-card img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.product-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.product-info h3 {
+    margin: 0;
+    font-size: 1.1em;
+}
+
+.product-info p {
+    margin: 0 0 10px 0;
+    font-size: 0.9em;
+    color: #555;
+}
+
+/* Contrôles de quantité (Input et boutons) */
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.kg-input {
+    width: 30px;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    /* Cache les flèches par défaut dans certains navigateurs */
+    -moz-appearance: textfield; 
+}
+.kg-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.stepper {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.step-up, .step-down {
+    display: block;
+    cursor: pointer;
+    font-size: 8px;
+    padding: 2px 5px;
+    border: 1px solid #ccc;
+    line-height: 1;
+    border-radius: 2px;
+    background-color: #f9f9f9;
+}
+
+/* Boutons Ajouter au panier et icône Favoris */
+.add-to-cart {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.add-to-cart:hover {
+    background-color: #0056b3;
+}
+
+.favorite-icon {
+    font-size: 24px;
+    color: #ccc;
+    cursor: pointer;
+    margin-left: 10px;
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+}
+
+.product-card {
+    position: relative; /* Pour positionner l'icône de cœur */
+}
+
+/* Media Query pour les petits écrans (1 colonne) */
+@media (max-width: 650px) {
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+}
