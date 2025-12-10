@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Panier – **Nom de la boutique**</title>
+  <ttps://fonts.googleapis.com
+  https://fonts.gstatic.com
+  <!-- Police système pour simplicité; remplace si besoin -->
+  styles.css
+</head>
+<body>
+  <!-- En-tête -->
+  <header class="site-header">
+    <div class="container header-inner">
+      **/url-accueil**
+        <!-- Remplace le texte ou mets ton logo -->
+        <span>**Nom de la boutique**</span>
+      </a>
+      <nav class="header-nav" aria-label="Navigation principale">
+        <ul>
+          <li><a href="**/url-catalogogue</a></li>
+          <li>**/url-nouveautes**Nouveautés</a></li>
+          <li><a href="**/url*Contact</a></li>
+        </ul>
+      </nav>
+      <a class="mini-cart" href="**/url-panier**" aria
+
+  <!-- Fil d’Ariane -->
+  <nav class="breadcrumb container" aria-label="Fil d’Ariane">
+    <ol>
+      <li><a href="**/url-accueil</a></li>
+      <li aria-current="page">Panier</li>
+    </ol>
+  </nav>
+
+  <main class="container">
+    <h1>Votre panier</h1>
+
+    <!-- Alerte / info -->
+    <div class="notice" role="status">
+      Livraison gratuite dès **59,00 €** d’achat.
+    </div>
+
+    <section class="cart">
+      <!-- Liste des articles -->
+      <ul class="cart-list" role="list">
+        <!-- ARTICLE 1 -->
+        <li class="cart-item">
+          <div class="item-media">
+            **/images/produit-1.jpg**
+          </div>
+          <div class="item-info">
+            <h2 class="item-title">
+              **/url-produit-1****Nom produit 1**</a>
+            </h2>
+            <p class="item-variant">**Couleur / Taille / Variante**</p>
+            <p class="item-sku">SKU : **SKU-0001**</p>
+
+            <div class="item-controls">
+              <label for="qty-1">Quantité</label>
+              <!-- Remplace min/max si besoin -->
+              <input id="qty-1" name="qty-1" type="number" inputmode="numeric" value="1" min="1" max="99" aria-label="Quantité pour **Nom produit 1**">
+              <button class="btn-link remove" type="button" aria-label="Retirer **Nom produit 1** du panier">
+                Retirer
+              </button>
+            </div>
+          </div>
+          <div class="item-price-block">
+            <p class="unit-price">Prix unitaire : <strong>**29,90 €**</strong></p>
+            <p class="line-price">Total article : <strong>**29,90 €**</strong></p>
+          </div>
+        </li>
+
+        <!-- ARTICLE 2 -->
+        <li class="cart-item">
+          <div class="item-media">
+            <img src="**/images/produit-2.jpg**" alt="**         <div class="item-info">
+            <h2 class="item-title">
+              **/url-produit-2****Nom produit 2**</a>
+            </h2>
+            <p class="item-variant">**Couleur / Taille / Variante**</p>
+            <p class="item-sku">SKU : **SKU-0002**</p>
+
+            <div class="item-controls">
+              <label for="qty-2">Quantité</label>
+              <input id="qty-2" name="qty-2" type="number" inputmode="numeric" value="2" min="1" max="99" aria-label="Quantité pour **Nom produit 2**">
+              <button class="btn-link remove" type="button" aria-label="Retirer **Nom produit 2** du panier">
+                Retirer
+              </button>
+            </div>
+          </div>
+          <div class="item-price-block">
+            <p class="unit-price">Prix unitaire : <strong>**49,00 €**</strong></p>
+            <p class="line-price">Total article : <strong>**98,00 €**</strong></p>
+          </div>
+        </li>
+      </ul>
+
+      <!-- Actions secondaires -->
+      <div class="cart-actions">
+        **/url-catalogue**Continuer mes achats</a>
+        <button class="btn-link" type="button">Vider le panier</button>
+      </div>
+
+      <!-- Colonne résumé -->
+      <aside class="cart-summary" aria-labelledby="resume-titre">
+        <h2 id="resume-titre">Résumé de la commande</h2>
+
+        <!-- Code promo -->
+        <form class="promo-form" action="**/url-appliquer-code-promo**" method="post" novalidate<div class="promo-row">
+            <input id="promo" name="promo" type="text" placeholder="**VOTRECODE**" aria-describedby="promo-help">
+            <button class="btn" type="submit">Appliquer</button>
+          </div>
+          <small id="promo-help" class="help">Entrez votre bon de réduction si vous en avez un.</small>
+        </form>
+
+        <!-- Estimation livraison -->
+        <form class="shipping-form" action="**/url-estimer-livraison**" method="post"    <select id="country" name="country">
+            <option value="FR">France</option>
+            <option value="BE">Belgique</option>
+            <option value="CH">Suisse</option>
+            <option value="**AUTRE**">**Autre pays**</option>
+          </select>
+
+          <label for="postal">Code postal</label>
+          <input id="postal" name="postal" type="text" inputmode="numeric" placeholder="**75001**">
+          <button class="btn-outline" type="submit">Estimer la livraison</button>
+        </form>
+
+        <!-- Totaux -->
+        <dl class="totals">
+          <div class="row">
+            <dt>Sous-total</dt>
+            <dd><strong>**127,90 €**</strong></dd>
+          </div>
+          <div class="row">
+            <dt>Livraison</dt>
+            <dd><strong>**Gratuite / 5,90 €**</strong></dd>
+          </div>
+          <div class="row">
+            <dt>Taxes</dt>
+            <dd><strong>**Incluses / 20%**</strong></dd>
+          </div>
+          <div class="row grand">
+            <dt>Total</dt>
+            <dd><strong>**127,90 €**</strong></dd>
+          </div>
+        </dl>
+
+        <!-- Boutons de checkout -->
+        <div class="checkout-buttons">
+          **/url-checkout**Passer la commande</a>
+          **/url-paiement-express**Paiement express</a>
+        </div>
+
+        <!-- Confiance -->
+        <ul class="trust-badges" role="list">
+          <li>✓ Paiement sécurisé</li>
+          <li>✓ Retours sous **30 jours**</li>
+          <li>✓ Service client **email/phone**</li>
+        </ul>
+      </aside>
+    </section>
+  </main>
+
+  <!-- Pied de page -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav aria-label="Liens de pied de page">
+        <ul>
+          <li><a/url-cgv**CGV</a></li>
+          <li>**/url-retours**Retours</a></li>
+          <li>**/url-confidentialite**Confidentialité</a></li>
+          <li>**/url-contact**Contact</a></li>
+        </ul>
+      </nav>
+      <p>&copy; <span id="year"></span> **Nom de la boutique**. Tous droits réservés.</p>
+    </div>
+    <script>
+      // (Optionnel) Met l'année courante dans le footer
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+  </footer>
+</body>
+</html>

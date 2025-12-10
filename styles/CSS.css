@@ -1,0 +1,197 @@
+
+/* ===== Variables (remplace si besoin) ===== */
+:root {
+    --bg: #ffffff;
+    --text: #1a1a1a;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --primary: #2563eb;      /* À CHANGER si besoin */
+    --primary-hover: #1d4ed8;
+    --accent: #10b981;       /* À CHANGER si besoin */
+    --danger: #ef4444;
+    --shadow: 0 10px 20px rgba(0,0,0,0.06);
+    --radius: 12px;
+    --container: 1100px;
+  }
+  
+  /* ===== Reset simple & base ===== */
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    background: #f8fafc;
+    color: var(--text);
+    line-height: 1.5;
+  }
+  
+  /* ===== Containers ===== */
+  .container { width: 100%; max-width: var(--container); margin: 0 auto; padding: 0 16px; }
+  
+  /* ===== Header ===== */
+  .site-header {
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 10;
+  }
+  .header-inner {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 0;
+  }
+  .logo { font-weight: 700; text-decoration: none; color: var(--text); }
+  .header-nav ul, .footer-inner ul { display: flex; gap: 16px; list-style: none; margin: 0; padding: 0; }
+  .header-nav a, .mini-cart { text-decoration: none; color: var(--text); }
+  .header-nav a:hover, .mini-cart:hover { color: var(--primary); }
+  
+  /* ===== Breadcrumb ===== */
+  .breadcrumb { font-size: 14px; color: var(--muted); margin: 16px auto; }
+  .breadcrumb ol { list-style: none; display: flex; gap: 8px; padding: 0; margin: 0; }
+  .breadcrumb a { color: var(--muted); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--text); }
+  .breadcrumb li+li::before { content: "›"; margin: 0 4px; color: var(--border); }
+  
+  /* ===== Cart layout ===== */
+  .cart {
+    display: grid;
+    grid-template-columns: 1.7fr 1fr;
+    gap: 24px;
+    margin: 24px 0 64px;
+  }
+  @media (max-width: 900px) {
+    .cart { grid-template-columns: 1fr; }
+  }
+  
+  /* ===== Notice ===== */
+  .notice {
+    background: #ecfeff;
+    border: 1px solid #cffafe;
+    color: #0e7490;
+    padding: 12px 16px;
+    border-radius: var(--radius);
+  }
+  
+  /* ===== Cart list ===== */
+  .cart-list {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 8px;
+    margin: 0;
+  }
+  .cart-item {
+    display: grid;
+    grid-template-columns: 110px 1fr auto;
+    gap: 16px;
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .cart-item:last-child { border-bottom: none; }
+  
+  .item-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  
+  .item-title { font-size: 18px; margin: 0 0 4px; }
+  .item-title a { color: var(--text); text-decoration: none; }
+  .item-title a:hover { color: var(--primary); }
+  .item-variant, .item-sku { margin: 0; color: var(--muted); }
+  
+  .item-controls { display: flex; gap: 12px; align-items: center; margin-top: 12px; }
+  .item-controls input[type="number"] {
+    width: 88px;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #fff;
+  }
+  .btn-link {
+    border: none;
+    background: none;
+    color: var(--danger);
+    padding: 0;
+    cursor: pointer;
+  }
+  .btn-link:hover { text-decoration: underline; }
+  
+  .item-price-block { text-align: right; }
+  .unit-price, .line-price { margin: 0; }
+  
+  /* ===== Cart actions ===== */
+  .cart-actions {
+    display: flex;
+    gap: 12px;
+    margin: 12px 0 24px;
+  }
+  .btn-secondary {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: #eef2ff;
+    color: #3730a3;
+    text-decoration: none;
+  }
+  .btn-secondary:hover { background: #e0e7ff; }
+  
+  /* ===== Summary column ===== */
+  .cart-summary {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 16px;
+    height: fit-content;
+  }
+  .cart-summary h2 { margin-top: 0; }
+  
+  .promo-form, .shipping-form { display: grid; gap: 8px; margin-bottom: 16px; }
+  .promo-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+  input[type="text"], select {
+    padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: #fff;
+  }
+  .help { color: var(--muted); }
+  
+  .totals { margin: 16px 0; }
+  .totals .row { display: grid; grid-template-columns: 1fr auto; padding: 8px 0; border-top: 1px dashed var(--border); }
+  .totals .row:first-child { border-top: none; }
+  .totals .grand dt { font-weight: 700; }
+  .totals .grand dd { font-size: 20px; font-weight: 800; }
+  
+  .checkout-buttons { display: grid; gap: 10px; }
+  .btn, .btn-outline, .btn.primary {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 12px 16px; border-radius: 10px; text-decoration: none; cursor: pointer;
+  }
+  .btn.primary, .btn { background: var(--primary); color: #fff; border: 1px solid var(--primary); }
+  .btn.primary:hover, .btn:hover { background: var(--primary-hover); }
+  .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+  .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+  
+  .trust-badges { list-style: none; padding: 0; margin: 12px 0 0; color: var(--muted); }
+  
+  /* ===== Footer ===== */
+  .site-footer {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+  }
+  .footer-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; padding: 16px 0;
+  }
+  .footer-inner a { color: var(--muted); text-decoration: none; }
+  .footer-inner a:hover { color: var(--text); }
+  
+  /* ===== Utilities ===== */
+  .btn:focus, .btn-outline:focus, .btn-link:focus,
+  input:focus, select:focus {
+    outline: 3px solid #c7d2fe;
+    outline-offset: 2px;
+  }
+  
