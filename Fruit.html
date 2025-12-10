@@ -4,100 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marché de Bidart</title>
-<link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="browser-frame">
-        <div class="browser-header">
-            <div class="nav-controls">
-                <span class="control-btn">&leftarrow;</span>
-                <span class="control-btn">&rightarrow;</span>
-                <span class="control-btn">X</span>
-                <span class="control-btn">&equiv;</span>
+    <div class="content">
+        <header class="search-section">
+            <div class="search-bar">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Rechercher fruits">
+                <span class="mic-icon">🎤</span>
             </div>
-            <div class="address-bar">
+        </header>
+
+        <main class="product-grid">
+            <div class="product-card">
+                <img src="data:image/jpeg;base64,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" alt="Abricot">
+                <div class="product-info">
+                    <h3>Abricot bio de Bidart</h3>
+                    <p>à **3,20€** le kilo</p>
+                    <div class="controls">
+                        <input type="number" value="0" min="0" class="kg-input"> Kg
+                        <div class="stepper">
+                            <span class="step-up">▲</span>
+                            <span class="step-down">▼</span>
+                        </div>
+                    </div>
+                    <button class="add-to-cart">Ajouter au panier</button>
+                    <span class="favorite-icon">&hearts;</span>
+                </div>
             </div>
-        </div>
 
-        <div class="content">
-            <header class="search-section">
-                <div class="search-bar">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" placeholder="Rechercher fruits">
-                    <span class="mic-icon">🎤</span>
-                </div>
-            </header>
-
-            <main class="product-grid">
-                <div class="product-card">
-                    <img src="data:image/jpeg;base64,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" alt="Abricot">
-                    <div class="product-info">
-                        <h3>Abricot bio de Bidart</h3>
-                        <p>à **3,20€** le kilo</p>
-                        <div class="controls">
-                            <input type="number" value="0" min="0" class="kg-input"> Kg
-                            <div class="stepper">
-                                <span class="step-up">▲</span>
-                                <span class="step-down">▼</span>
-                            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/100x100?text=Cerise" alt="Cerise">
+                <div class="product-info">
+                    <h3>Cerise bio de Bidart</h3>
+                    <p>à **8,20€** le kilo</p>
+                    <div class="controls">
+                        <input type="number" value="0" min="0" class="kg-input"> Kg
+                        <div class="stepper">
+                            <span class="step-up">▲</span>
+                            <span class="step-down">▼</span>
                         </div>
-                        <button class="add-to-cart">Ajouter au panier</button>
-                        <span class="favorite-icon">&hearts;</span>
                     </div>
+                    <button class="add-to-cart">Ajouter au panier</button>
+                    <span class="favorite-icon">&hearts;</span>
                 </div>
+            </div>
 
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/100x100?text=Cerise" alt="Cerise">
-                    <div class="product-info">
-                        <h3>Cerise bio de Bidart</h3>
-                        <p>à **8,20€** le kilo</p>
-                        <div class="controls">
-                            <input type="number" value="0" min="0" class="kg-input"> Kg
-                            <div class="stepper">
-                                <span class="step-up">▲</span>
-                                <span class="step-down">▼</span>
-                            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/100x100?text=Fraise" alt="Fraise">
+                <div class="product-info">
+                    <h3>Fraise bio de Bidart</h3>
+                    <p>à **4,55€** le kilo</p>
+                    <div class="controls">
+                        <input type="number" value="0" min="0" class="kg-input"> Kg
+                        <div class="stepper">
+                            <span class="step-up">▲</span>
+                            <span class="step-down">▼</span>
                         </div>
-                        <button class="add-to-cart">Ajouter au panier</button>
-                        <span class="favorite-icon">&hearts;</span>
                     </div>
+                    <button class="add-to-cart">Ajouter au panier</button>
+                    <span class="favorite-icon">&hearts;</span>
                 </div>
+            </div>
 
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/100x100?text=Fraise" alt="Fraise">
-                    <div class="product-info">
-                        <h3>Fraise bio de Bidart</h3>
-                        <p>à **4,55€** le kilo</p>
-                        <div class="controls">
-                            <input type="number" value="0" min="0" class="kg-input"> Kg
-                            <div class="stepper">
-                                <span class="step-up">▲</span>
-                                <span class="step-down">▼</span>
-                            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/100x100?text=Mirabelle" alt="Mirabelle">
+                <div class="product-info">
+                    <h3>Mirabelle bio de Bidart</h3>
+                    <p>à **2,55€** le kilo</p>
+                    <div class="controls">
+                        <input type="number" value="0" min="0" class="kg-input"> Kg
+                        <div class="stepper">
+                            <span class="step-up">▲</span>
+                            <span class="step-down">▼</span>
                         </div>
-                        <button class="add-to-cart">Ajouter au panier</button>
-                        <span class="favorite-icon">&hearts;</span>
                     </div>
+                    <button class="add-to-cart">Ajouter au panier</button>
+                    <span class="favorite-icon">&hearts;</span>
                 </div>
-
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/100x100?text=Mirabelle" alt="Mirabelle">
-                    <div class="product-info">
-                        <h3>Mirabelle bio de Bidart</h3>
-                        <p>à **2,55€** le kilo</p>
-                        <div class="controls">
-                            <input type="number" value="0" min="0" class="kg-input"> Kg
-                            <div class="stepper">
-                                <span class="step-up">▲</span>
-                                <span class="step-down">▼</span>
-                            </div>
-                        </div>
-                        <button class="add-to-cart">Ajouter au panier</button>
-                        <span class="favorite-icon">&hearts;</span>
-                    </div>
-                </div>
-            </main>
-        </div>
+            </div>
+        </main>
     </div>
 </body>
 </html>
