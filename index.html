@@ -9,28 +9,44 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+
+            /* Image de fond */
+            background-image: url("https://www.en-pays-basque.fr/wp-content/uploads/2020/08/bidart-marche-et-village-pierre-chambion-1024x683.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        /* Conteneur de la “première page” */
+        .hero {
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh;
-            background-color: #f2f2f2;
+            justify-content: center; /* centre verticalement */
+            min-height: 100vh; /* occupe tout l’écran */
+            text-align: center;
+            padding: 20px;
         }
 
         h1 {
-            margin-top: 20px;
+            margin-bottom: 40px;
+            color: white;
+            text-shadow: 2px 2px 5px black;
+            font-size: 3em;
         }
 
         .circle-container {
             width: 100%;
             display: flex;
             justify-content: center;
-            gap: 150px;
-            margin-top: 20px;
+            gap: 200px; /* plus d’espace entre les cercles */
+            margin-bottom: 40px; /* espace sous les cercles */
         }
 
         .circle {
-            width: 150px;
-            height: 150px;
+            width: 220px; /* cercles plus grands */
+            height: 220px;
             border-radius: 50%;
             background-color: white;
             border: 2px solid black;
@@ -43,9 +59,9 @@
             position: relative;
             color: white;
             font-weight: bold;
-            font-size: 18px;
+            font-size: 20px;
             text-shadow: 1px 1px 3px black;
-            padding-bottom: 5px;
+            padding-bottom: 10px;
         }
 
         .circle.legumes {
@@ -56,19 +72,17 @@
             background-image: url("https://th.bing.com/th/id/OIP.74L1tQJeO5RJeCqyLFyWPAHaFb?w=203&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3");
         }
 
-        /* Zone de recherche */
         .search-box {
-            margin-top: 30px;
-            margin-bottom: 30px;
             display: flex;
             width: 50%;
             max-width: 500px;
+            margin-bottom: 40px; /* espace sous la barre de recherche */
         }
 
         .search-box input[type="text"] {
             flex: 1;
-            padding: 10px;
-            font-size: 16px;
+            padding: 15px; /* plus grand pour la barre de recherche */
+            font-size: 18px;
             border: 2px solid #ccc;
             border-right: none;
             border-radius: 5px 0 0 5px;
@@ -76,8 +90,8 @@
         }
 
         .search-box button {
-            padding: 10px 20px;
-            font-size: 16px;
+            padding: 15px 25px;
+            font-size: 18px;
             border: 2px solid #ccc;
             border-left: none;
             border-radius: 0 5px 5px 0;
@@ -91,35 +105,42 @@
             background-color: #45a049;
         }
 
+        /* Texte en-dessous centré horizontalement */
         .text-box {
             width: 80%;
-            background-color: white;
+            margin-left: auto;  /* centre horizontalement */
+            margin-right: auto; /* centre horizontalement */
+            background-color: rgba(255, 255, 255, 0.85);
             border: 2px solid black;
             padding: 20px;
             line-height: 1.6;
-            margin-top: auto;
+            margin-top: 100px; /* espace avant le texte */
             margin-bottom: 40px;
         }
     </style>
 </head>
 <body>
-    <h1>Les légumes et fruits de Bidart</h1>
 
-    <div class="circle-container">
-        <div class="circle legumes">
-            Légumes
+    <!-- Première page / section visible -->
+    <div class="hero">
+        <h1>Les légumes et fruits de Bidart</h1>
+
+        <div class="circle-container">
+            <div class="circle legumes">
+                Légumes
+            </div>
+            <div class="circle fruits">
+                Fruits
+            </div>
         </div>
-        <div class="circle fruits">
-            Fruits
+
+        <div class="search-box">
+            <input type="text" placeholder="Rechercher...">
+            <button>Rechercher</button>
         </div>
     </div>
 
-    <!-- Zone de recherche -->
-    <div class="search-box">
-        <input type="text" placeholder="Rechercher...">
-        <button>Rechercher</button>
-    </div>
-
+    <!-- Section texte en-dessous -->
     <div class="text-box">
         Au cœur du Pays Basque, notre exploitation maraîchère familiale cultive les terres fertiles de Bidart depuis plusieurs générations.<br><br>
         Entre océan et collines, nous bénéficions d'un climat privilégié qui donne à nos fruits et légumes des saveurs authentiques.<br><br>
