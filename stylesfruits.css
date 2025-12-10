@@ -1,0 +1,188 @@
+/* ==================================== */
+/* 1. RÉINITIALISATION ET BASE (Body)  */
+/* ==================================== */
+body {
+    font-family: Arial, sans-serif;
+    display: flex; /* Nous gardons flex pour le centrage si besoin */
+    justify-content: center;
+    /* --- MODIFICATIONS CLÉS --- */
+    margin: 0; /* SUPPRIME les marges autour du contenu */
+    padding: 0;
+    /* Remplacez la couleur par celle que vous voulez pour l'arrière-plan du site entier */
+    background-color: #f7f7f7; 
+}
+
+/* ==================================== */
+/* 2. NETTOYAGE DU CADRE SIMULÉ         */
+/* ==================================== */
+/* Ces sélecteurs simulaient la fenêtre du navigateur. Nous les retirons ou les annulons. */
+
+/* Si vous avez laissé la balise .browser-frame dans le HTML, cela la masque */
+.browser-frame { 
+    display: contents; /* ANNULE les styles de cadre */
+    width: auto;
+    max-width: none;
+    box-shadow: none;
+    border: none;
+}
+
+/* Ces styles sont inutiles une fois le HTML nettoyé, mais il est bon de les annuler */
+.browser-header, .nav-controls, .address-bar {
+    display: none; 
+}
+
+/* ==================================== */
+/* 3. CONTENU PRINCIPAL (.content)      */
+/* ==================================== */
+.content {
+    width: 100%; /* Le contenu prend toute la largeur disponible */
+    max-width: 1200px; /* Optionnel : Limite la largeur du contenu sur les très grands écrans pour qu'il ne soit pas trop étiré */
+    padding: 20px;
+    margin: 0 auto; /* Centre le contenu si max-width est utilisé */
+}
+
+/* ==================================== */
+/* 4. SECTION DE RECHERCHE              */
+/* ==================================== */
+.search-section {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    background-color: white;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.search-bar input {
+    border: none;
+    outline: none;
+    flex-grow: 1;
+    padding: 0 10px;
+    font-size: 16px;
+}
+
+.search-icon, .mic-icon {
+    color: #555;
+    cursor: pointer;
+}
+
+/* ==================================== */
+/* 5. GRILLE DE PRODUITS                */
+/* ==================================== */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 20px;
+    padding: 0;
+    list-style: none;
+}
+
+.product-card {
+    background-color: white;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.product-card img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 15px;
+}
+
+.product-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-info h3 {
+    margin: 0;
+    font-size: 1.1em;
+    color: #38761d;
+}
+
+.product-info p {
+    margin: 5px 0 10px 0;
+    color: #cc0000;
+    font-weight: bold;
+}
+
+/* ==================================== */
+/* 6. CONTRÔLES (QUANTITÉ ET PANIER)    */
+/* ==================================== */
+.controls {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.kg-input {
+    width: 40px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+    margin-right: 5px;
+}
+
+/* Style des flèches (stepper) */
+.stepper {
+    display: flex;
+    flex-direction: column;
+    margin-left: 5px;
+}
+
+.stepper span {
+    font-size: 0.7em;
+    cursor: pointer;
+    line-height: 0.6;
+    color: #333;
+    padding: 2px;
+}
+
+/* Bouton Ajouter au panier */
+.add-to-cart {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 15px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    flex-grow: 1; /* Permet au bouton de prendre l'espace restant */
+    margin-top: 5px;
+}
+
+.add-to-cart:hover {
+    background-color: #0056b3;
+}
+
+.favorite-icon {
+    font-size: 1.5em;
+    color: #ff69b4;
+    cursor: pointer;
+    margin-left: 10px;
+    align-self: flex-end; /* Aligne le cœur en bas à droite */
+}
+
+/* Ajustements pour la réactivité (mise en page des cartes) */
+@media (max-width: 768px) {
+    .product-grid {
+        grid-template-columns: 1fr; /* Une seule colonne sur mobile */
+    }
+}
