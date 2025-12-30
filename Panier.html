@@ -110,17 +110,52 @@
       border: 1px dashed var(--border);
       background: #fff;
     }
+    
+/* Bloc commande */
+.checkout {
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.checkout-summary {
+  font-size: 1rem;
+}
+
+.btn-primary {
+  padding: .6rem 1.2rem;
+  border-radius: 8px;
+  border: 1px solid #0a7cff;
+  background: #0a7cff;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn-primary:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+.btn-primary:hover:not(:disabled) {
+  filter: brightness(1.05);
+}
+
   </style>
 </head>
 <body>
   <!-- Barre du haut avec lien retour -->
   <div class="topbar">
-    <a href="index.html" class="back">← Continuer les achats</a>
+    <a href="index.html" class="top-left">Continuer mes achats</a>
     <button id="clear">Vider le panier</button>
   </div>
 
-  <h1>Votre panier</h1>
-
+  <h1 style="text-align:center;">Votre panier</h1>
+  
   <!-- Tableau du panier -->
   <table id="cart-table" aria-live="polite">
     <thead>
@@ -143,6 +178,67 @@
       </tr>
     </tfoot>
   </table>
+  <style>
+    
+
+/* On sépare les lignes en jouant sur la séparation du tableau */
+table {
+  width: 100%;
+  border-collapse: separate; /* Crucial pour pouvoir espacer les lignes */
+  border-spacing: 0 12px;    /* Espace vertical entre lignes (12px) */
+}
+
+/* En-tête : sans ombre ni spacing */
+thead th {
+  background: #f7f7f7;
+  font-weight: 600;
+  border: 1px solid #ddd;
+  padding: 10px 12px;
+}
+
+/* Les cellules : pas de bordure interne, on va dessiner le contour sur la ligne */
+tbody td {
+  border: none;              /* Pas de bordures entre cellules */
+  padding: 12px;
+}
+
+/* Chaque ligne devient une "carte" */
+tbody tr {
+  background: #e0a7a7;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.05); /* Ligne discrète sous la carte */
+  outline: 1px solid #ddd;              /* Contour de la carte */
+  border-radius: 6px;                    /* Coins arrondis */
+}
+
+/* Pour arrondir correctement les coins aux extrémités */
+tbody tr td:first-child { border-top-left-radius: 6px; border-bottom-left-radius: 6px; }
+tbody tr td:last-child  { border-top-right-radius: 6px; border-bottom-right-radius: 6px; }
+
+/* Pied de tableau (total) : on peut remettre une bordure pleine */
+tfoot td {
+  font-weight: 700;
+  background: #f7f7f7;
+  border: 1px solid #ddd;
+  padding: 10px 12px;
+}
+tr:nth-child(even) {
+  background-color: #32b8b8;
+}
+
+
+  </style>
+
+<!-- Bloc Commander -->
+<div class="checkout">
+  <div class="checkout-summary">
+    <span>Total à payer :</span>
+    <strong id="checkout-total">0,00 €</strong>
+  </div>
+
+  <button id="checkout-btn" class="btn-primary" disabled>
+    Commander
+  </button>
+</div>
 
   <!-- Message si panier vide -->
   <div id="empty" class="empty" style="display:none;">
@@ -165,64 +261,83 @@
     }
 
     // --- Rendu du panier ---
-    function loadCart() {
-      const cart = getCart();
-      const tbody = document.querySelector('#cart-table tbody');
-      const grandTotalEl = document.getElementById('grand-total');
-      const emptyBox = document.getElementById('empty');
+ 
+function loadCart() {
+  const cart = getCart();
+  const tbody = document.querySelector('#cart-table tbody');
+  const grandTotalEl = document.getElementById('grand-total');
+  const emptyBox = document.getElementById('empty');
 
-      // Affichage "panier vide"
-      if (!cart.length) {
-        tbody.innerHTML = '';
-        grandTotalEl.textContent = '0,00 €';
-        emptyBox.style.display = 'block';
-        document.getElementById('cart-table').style.display = 'none';
-        return;
-      } else {
-        emptyBox.style.display = 'none';
-        document.getElementById('cart-table').style.display = 'table';
-      }
+  // Affichage "panier vide"
+  if (!cart.length) {
+    tbody.innerHTML = '';
+    grandTotalEl.textContent = '0,00 €';
+    emptyBox.style.display = 'block';
+    document.getElementById('cart-table').style.display = 'none';
 
-      tbody.innerHTML = '';
-      let grandTotal = 0;
+    // Désactiver le bouton Commander si panier vide
+    document.getElementById('checkout-btn')?.setAttribute('disabled', 'disabled');
+    document.getElementById('checkout-total').textContent = '0,00 €';
+    return;
+  } else {
+    emptyBox.style.display = 'none';
+    document.getElementById('cart-table').style.display = 'table';
+  }
 
-      cart.forEach(item => {
-        const itemTotal = (item.price || 0) * (item.qty || 0);
-        grandTotal += itemTotal;
+  tbody.innerHTML = '';
+  let grandTotal = 0;
 
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>
-            ${item.image
-              ? `<img class="thumb" alt="${item.name}" src="${item.image}">`
-              : `<span class="thumb placeholder" aria-label="Pas d'image"></span>`
-            }
-          </td>
-          <td>${item.name || ''}</td>
-          <td>${item.unit || ''}</td>
-          <td>${formatEuro(item.price)}</td>
-          <td>
-            <div class="qty-controls">
-              <button class="dec" data-id="${item.id}" title="Diminuer">−</button>
-              <span class="qty">${item.qty}</span>
-              <button class="inc" data-id="${item.id}" title="Augmenter">+</button>
-            </div>
-          </td>
-          <td>${formatEuro(itemTotal)}</td>
-          <td class="actions">
-            <button class="remove" data-id="${item.id}" title="Supprimer">Supprimer</button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
+  cart.forEach(item => {
+    const itemTotal = (item.price || 0) * (item.qty || 0);
+    grandTotal += itemTotal;
 
-      grandTotalEl.textContent = formatEuro(grandTotal);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>
+        ${item.image
+          ? `<img class="thumb" alt="${item.name}" src="${item.image}">`
+          : `<span class="thumb placeholder" aria-label="Pas d'image"></span>`
+        }
+      </td>
+      <td>${item.name || ''}</td>
+      <td>${item.unit || ''}</td>
+      <td>${formatEuro(item.price)}</td>
+      <td>
+        <div class="qty-controls">
+          <button class="dec" data-id="${item.id}" title="Diminuer">−</button>
+          <span class="qty">${item.qty}</span>
+          <button class="inc" data-id="${item.id}" title="Augmenter">+</button>
+        </div>
+      </td>
+      <td>${formatEuro(itemTotal)}</td>
+      <td class="actions">
+        <button class="remove" data-id="${item.id}" title="Supprimer">Supprimer</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
 
-      // Brancher les actions
-      tbody.querySelectorAll('.inc').forEach(btn => btn.addEventListener('click', () => updateQty(btn.dataset.id, +1)));
-      tbody.querySelectorAll('.dec').forEach(btn => btn.addEventListener('click', () => updateQty(btn.dataset.id, -1)));
-      tbody.querySelectorAll('.remove').forEach(btn => btn.addEventListener('click', () => removeItem(btn.dataset.id)));
+  // Mettre à jour le total général du tableau
+  grandTotalEl.textContent = formatEuro(grandTotal);
+
+  // 🔹 Mettre à jour le bloc "Commander"
+  document.getElementById('checkout-total').textContent = formatEuro(grandTotal);
+  const checkoutBtn = document.getElementById('checkout-btn');
+  if (checkoutBtn) {
+    if (grandTotal > 0) {
+      checkoutBtn.removeAttribute('disabled');
+    } else {
+      checkoutBtn.setAttribute('disabled', 'disabled');
     }
+  }
+
+  // Brancher les actions +
+  tbody.querySelectorAll('.inc').forEach(btn => btn.addEventListener('click', () => updateQty(btn.dataset.id, +1)));
+  tbody.querySelectorAll('.dec').forEach(btn => btn.addEventListener('click', () => updateQty(btn.dataset.id, -1)));
+  tbody.querySelectorAll('.remove').forEach(btn => btn.addEventListener('click', () => removeItem(btn.dataset.id)));
+}
+``
+
 
     function updateQty(id, delta) {
       const cart = getCart();
