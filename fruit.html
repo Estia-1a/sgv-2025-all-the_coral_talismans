@@ -8,15 +8,27 @@
 </head>
 <body>
     <div class="content">
+
         <header class="search-section">
+            <nav class="top-left">
+                <a href="index.html" class="bouton">Accueil</a>&nbsp;
+            </nav>
+            <nav class="top-left">
+                <a href="légumes.html" class="bouton">Légumes</a><br>
+            </nav>
+
             <div class="search-bar">
-                <span class="search-icon">🔍</span>
-                <input type="text" placeholder="Rechercher fruits">
-                <span class="mic-icon">🎤</span>
+              <span class="search-icon">🔍</span>
+              <input type="text" placeholder="Rechercher fruits">
+              <span class="mic-icon">🎤</span>
             </div>
-            </header>
-            <a href="index.html" class="home-button">🏠 Accueil</a>
-        </header>
+
+            <nav class="top-right">
+                <a href="panier.html" class="bouton">Panier</a>
+            </nav>
+          </header>
+          
+          
         <main class="product-grid">
             <div class="product-card">
                 <img src="https://www.lanutrition.fr/sites/default/files/ressources/abricots_fond_blanc.jpg" alt="Abricot">
@@ -138,5 +150,68 @@
             </div>
         </main>
     </div>
+    
+<script>
+    // Extrait le prix (nombre) et l'unité depuis "à **X,XX€** le kilo/pièce"
+    function parsePriceInfo(text) {
+      const clean = (text || '').replace(/\*\*/g, '');
+      const priceMatch = clean.match(/(\d+(?:[.,]\d+)?)\s*€/);
+      const unitMatch = clean.match(/\b(kilo|kg|pi[eè]ce)\b/i);
+      const price = priceMatch ? parseFloat(priceMatch[1].replace(',', '.')) : 0;
+      const unit = unitMatch ? unitMatch[0].toLowerCase() : '';
+      return { price, unit: unit === 'kg' ? 'kilo' : unit };
+    }
+  
+    function getCart() {
+      try { return JSON.parse(localStorage.getItem('cart') || '[]'); }
+      catch { return []; }
+    }
+    function setCart(cart) {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+  
+    document.querySelectorAll('.product-card').forEach(card => {
+      const name = card.querySelector('h3')?.textContent.trim() || 'Article';
+      const priceText = card.querySelector('.product-info p')?.textContent.trim() || '';
+      const { price, unit } = parsePriceInfo(priceText);
+      const qtyInput = card.querySelector('.kg-input');
+      const addBtn = card.querySelector('.add-to-cart');
+      const image = card.querySelector('img')?.src || '';
+  
+      // Stepper ▲ ▼ (optionnel)
+      const stepUp = card.querySelector('.step-up');
+      const stepDown = card.querySelector('.step-down');
+      if (stepUp && qtyInput) stepUp.addEventListener('click', () => qtyInput.value = (+qtyInput.value || 0) + 1);
+      if (stepDown && qtyInput) stepDown.addEventListener('click', () => qtyInput.value = Math.max(0, (+qtyInput.value || 0) - 1));
+  
+      addBtn?.addEventListener('click', () => {
+        const qty = Math.max(0, parseFloat(qtyInput?.value || '0'));
+        if (!qty) {
+          alert('Choisis une quantité avant d’ajouter au panier ✋');
+          return;
+        }
+  
+        // Identifiant basé sur le nom
+        const id = name.toLowerCase()
+          .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+          .replace(/[^a-z0-9]+/g, '-');
+  
+        const cart = getCart();
+        const existing = cart.find(i => i.id === id);
+  
+        if (existing) {
+          existing.qty += qty;
+        } else {
+          cart.push({ id, name, price, unit, qty, image });
+        }
+  
+        setCart(cart);
+  
+        // Redirection vers le panier
+        window.location.href = 'panier.html';
+      });
+    });
+  </script>
+  
 </body>
 </html>

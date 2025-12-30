@@ -1,24 +1,257 @@
 
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Panier – Le marché de Bidart</title>
+  <meta charset="UTF-8">
+  <title>Panier</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --border: #ddd;
+      --muted: #666;
+      --accent: #0a7cff;
+      --bg: #fafafa;
+    }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      color: #222;
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .back:hover { text-decoration: underline; }
+    button {
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 6px;
+      padding: .4rem .6rem;
+    }
+    button:hover { background: #f4f6f8; }
+
+    h1 {
+      margin: .5rem 0 1rem;
+      font-size: 1.8rem;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px;
+      text-align: left;
+      vertical-align: middle;
+    }
+    thead th {
+      background: var(--bg);
+    }
+    tfoot td {
+      font-weight: bold;
+      background: var(--bg);
+    }
+
+    .thumb {
+      width: 64px;
+      height: 64px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #fff;
+    }
+    .thumb.placeholder {
+      display: inline-block;
+      background: repeating-linear-gradient(
+        45deg, #eee, #eee 10px, #f7f7f7 10px, #f7f7f7 20px
+      );
+    }
+
+    .qty-controls {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .qty-controls button {
+      width: 28px;
+      height: 28px;
+      line-height: 1;
+      padding: 0;
+      font-size: 16px;
+    }
+    .qty {
+      min-width: 24px;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .actions button {
+      margin-right: .5rem;
+    }
+
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 2rem;
+      border: 1px dashed var(--border);
+      background: #fff;
+    }
+  </style>
 </head>
-
 <body>
+  <!-- Barre du haut avec lien retour -->
+  <div class="topbar">
+    <a href="index.html" class="back">← Continuer les achats</a>
+    <button id="clear">Vider le panier</button>
+  </div>
 
-  <main>
-    <h1>Panier <br>
-      Le marché de Bidart
-    </h1>
-    
-    <div class="encadrement">
-      <h2>Premier article</h2>
-      <p>Ton contenu ici — texte, images, boutons, etc.</p>
-    </div>
-  </main>
+  <h1>Votre panier</h1>
+
+  <!-- Tableau du panier -->
+  <table id="cart-table" aria-live="polite">
+    <thead>
+      <tr>
+        <th>Photo</th>
+        <th>Article</th>
+        <th>Unité</th>
+        <th>Prix unitaire</th>
+        <th>Quantité</th>
+        <th>Total</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+    <tfoot>
+      <tr>
+        <td colspan="5">Total général</td>
+        <td id="grand-total">0,00 €</td>
+        <td></td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <!-- Message si panier vide -->
+  <div id="empty" class="empty" style="display:none;">
+    Votre panier est vide. 🧺<br>
+    Ajoutez des produits depuis la page Légumes ou Fruits.
+  </div>
+
+  <script>
+    // --- Utilitaires panier ---
+    function getCart() {
+      try { return JSON.parse(localStorage.getItem('cart') || '[]'); }
+      catch { return []; }
+    }
+    function setCart(cart) {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+    function formatEuro(n) {
+      const val = Number.isFinite(n) ? n : 0;
+      return val.toFixed(2).replace('.', ',') + ' €';
+    }
+
+    // --- Rendu du panier ---
+    function loadCart() {
+      const cart = getCart();
+      const tbody = document.querySelector('#cart-table tbody');
+      const grandTotalEl = document.getElementById('grand-total');
+      const emptyBox = document.getElementById('empty');
+
+      // Affichage "panier vide"
+      if (!cart.length) {
+        tbody.innerHTML = '';
+        grandTotalEl.textContent = '0,00 €';
+        emptyBox.style.display = 'block';
+        document.getElementById('cart-table').style.display = 'none';
+        return;
+      } else {
+        emptyBox.style.display = 'none';
+        document.getElementById('cart-table').style.display = 'table';
+      }
+
+      tbody.innerHTML = '';
+      let grandTotal = 0;
+
+      cart.forEach(item => {
+        const itemTotal = (item.price || 0) * (item.qty || 0);
+        grandTotal += itemTotal;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>
+            ${item.image
+              ? `<img class="thumb" alt="${item.name}" src="${item.image}">`
+              : `<span class="thumb placeholder" aria-label="Pas d'image"></span>`
+            }
+          </td>
+          <td>${item.name || ''}</td>
+          <td>${item.unit || ''}</td>
+          <td>${formatEuro(item.price)}</td>
+          <td>
+            <div class="qty-controls">
+              <button class="dec" data-id="${item.id}" title="Diminuer">−</button>
+              <span class="qty">${item.qty}</span>
+              <button class="inc" data-id="${item.id}" title="Augmenter">+</button>
+            </div>
+          </td>
+          <td>${formatEuro(itemTotal)}</td>
+          <td class="actions">
+            <button class="remove" data-id="${item.id}" title="Supprimer">Supprimer</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      grandTotalEl.textContent = formatEuro(grandTotal);
+
+      // Brancher les actions
+      tbody.querySelectorAll('.inc').forEach(btn => btn.addEventListener('click', () => updateQty(btn.dataset.id, +1)));
+      tbody.querySelectorAll('.dec').forEach(btn => btn.addEventListener('click', () => updateQty(btn.dataset.id, -1)));
+      tbody.querySelectorAll('.remove').forEach(btn => btn.addEventListener('click', () => removeItem(btn.dataset.id)));
+    }
+
+    function updateQty(id, delta) {
+      const cart = getCart();
+      const item = cart.find(i => i.id === id);
+      if (!item) return;
+
+      const newQty = (item.qty || 1) + delta;
+      item.qty = Math.max(1, newQty); // Minimum 1
+      setCart(cart);
+      loadCart();
+    }
+
+    function removeItem(id) {
+      let cart = getCart();
+      cart = cart.filter(i => i.id !== id);
+      setCart(cart);
+      loadCart();
+    }
+
+    // --- Vider le panier ---
+    document.getElementById('clear').addEventListener('click', () => {
+      if (confirm('Voulez-vous vraiment vider le panier ?')) {
+        localStorage.removeItem('cart');
+        loadCart();
+      }
+    });
+
+    // Initialisation
+    loadCart();
+  </script>
 </body>
-
+</html>
