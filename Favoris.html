@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marché de Bidart - Mes Favoris</title>
+    <style>
+        :root {
+            --vert-premium: #108a00;
+            --shadow: 0 10px 25px rgba(0,0,0,.08);
+            --radius: 14px;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f8f9fa;
+        }
+
+        /* --- HEADER --- */
+        .header-simple {
+            padding: 30px 20px;
+            background: #fff;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,.08);
+        }
+
+        .header-simple h1 { 
+            color: var(--vert-premium); 
+            margin: 0; 
+            font-size: 1.8rem;
+        }
+
+        .back-link { 
+            text-decoration: none; 
+            color: #666; 
+            font-size: 14px; 
+            display: inline-block; 
+            margin-top: 10px;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: var(--vert-premium); }
+
+        /* --- GRILLE --- */
+        .product-grid {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        /* --- CARTE FAVORIS --- */
+        .product-card {
+            background: #fff;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            display: flex;
+            height: 130px; 
+            overflow: hidden;
+            position: relative;
+            border: 1px solid #eee;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-card img { 
+            width: 110px; 
+            height: 100%;
+            object-fit: contain; 
+            padding: 12px; 
+            background: #fafafa; 
+        }
+
+        .product-info { 
+            padding: 15px; 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+        }
+
+        .product-info h3 { 
+            margin: 0; 
+            font-size: 1.05rem; 
+            color: #333; 
+        }
+
+        .product-info p { 
+            margin: 6px 0 0 0; 
+            color: #d00000; 
+            font-weight: bold; 
+        }
+
+        /* BOUTON SUPPRIMER */
+        .remove-fav {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            color: #ff4d8d;
+            font-size: 22px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: background 0.2s;
+        }
+
+        .remove-fav:hover {
+            background: #fff0f5;
+        }
+
+        /* MESSAGE VIDE */
+        .empty-message {
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 80px 20px;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .empty-message p {
+            font-size: 1.2rem;
+            color: #888;
+            margin-bottom: 25px;
+        }
+
+        .btn-shop {
+            background: var(--vert-premium);
+            color: white;
+            padding: 14px 28px;
+            text-decoration: none;
+            border-radius: 30px;
+            display: inline-block;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+
+        .btn-shop:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header-simple">
+        <h1>Mes Coups de Cœur ❤️</h1>
+        <a href="index.html" class="back-link">← Retour au marché</a>
+    </header>
+
+    <main class="product-grid" id="favoritesGrid">
+        </main>
+
+    <script>
+        // Récupérer les favoris du stockage local
+        function getFavorites() {
+            return JSON.parse(localStorage.getItem('favorites') || '[]');
+        }
+
+        // Supprimer un favori et rafraîchir la liste
+        function removeFavorite(id) {
+            let favorites = getFavorites();
+            favorites = favorites.filter(f => f.id !== id);
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            renderFavorites();
+        }
+
+        // Afficher les cartes de produits favoris
+        function renderFavorites() {
+            const grid = document.getElementById('favoritesGrid');
+            const favorites = getFavorites();
+
+            if (favorites.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-message">
+                        <p>Votre liste de coups de cœur est vide...</p>
+                        <a href="index.html" class="btn-shop">Découvrir nos produits</a>
+                    </div>`;
+                return;
+            }
+
+            grid.innerHTML = favorites.map(item => `
+                <div class="product-card">
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="product-info">
+                        <h3>${item.name}</h3>
+                        <p>${item.price}</p>
+                    </div>
+                    <button class="remove-fav" title="Retirer des favoris" onclick="removeFavorite('${item.id}')">♥</button>
+                </div>
+            `).join('');
+        }
+
+        // Lancer le rendu au chargement de la page
+        document.addEventListener('DOMContentLoaded', renderFavorites);
+    </script>
+</body>
+</html>
