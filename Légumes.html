@@ -53,8 +53,10 @@
             gap: 20px;
         }
 
-        .top-left { display: flex; gap: 15px; }
-        .bouton { text-decoration: none; color: var(--vert-premium); font-weight: 600; padding: 8px 12px; white-space: nowrap; }
+        .top-left { display: flex; gap: 10px; align-items: center; }
+        .bouton { text-decoration: none; color: var(--vert-premium); font-weight: 600; padding: 8px 12px; white-space: nowrap; border-radius: 8px; transition: background 0.2s; }
+        .bouton:hover { background: #f0f7ef; }
+        
         .search-bar { flex: 1; display: flex; align-items: center; background: #f1f1f1; padding: 8px 18px; border-radius: 999px; }
         .search-bar input { border: none; outline: none; background: transparent; width: 100%; padding: 0 10px; font-size: 15px; }
 
@@ -95,7 +97,7 @@
             position: absolute;
             bottom: 12px;
             right: 12px;
-            color: #ccc; /* Couleur par défaut grise */
+            color: #ccc; 
             font-size: 22px;
             cursor: pointer;
             z-index: 10;
@@ -110,7 +112,6 @@
             transition: all 0.2s ease;
         }
 
-        /* Classe quand activé */
         .favorite-icon.active {
             color: #ff4d8d;
             transform: scale(1.2);
@@ -131,7 +132,6 @@
         .btn-primary { background: var(--vert-premium); color: white; text-decoration: none; padding: 12px; display: block; text-align: center; border-radius: 8px; margin: 15px; font-weight: bold; }
         .mini-cart__subtotal { display: flex; justify-content: space-between; padding: 0 15px; font-weight: bold;}
 
-        /* BADGE PANIER */
         .bouton.badge { position: relative; }
         .bouton.badge::after {
             content: attr(data-count);
@@ -149,6 +149,7 @@
         <nav class="top-left">
             <a href="index.html" class="bouton">Accueil</a>
             <a href="fruit.html" class="bouton">Fruits</a>
+            <a href="Favoris.html" class="bouton" style="color: #ff4d8d;">Favoris ♥</a>
         </nav>
         <div class="search-bar">
             <span>🔍</span>
@@ -312,14 +313,12 @@
     </div>
 
     <script>
-        // --- GESTION DU POP-UP AVEC MESSAGE VARIABLE ---
+        // --- UTILITAIRES ---
         function showFavoritePopup(message) {
             const toast = document.getElementById('favToast');
             toast.textContent = message;
             toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 1800);
+            setTimeout(() => toast.classList.remove('show'), 1800);
         }
 
         function parsePrice(text) {
@@ -329,6 +328,11 @@
 
         function getCart() { return JSON.parse(localStorage.getItem('cart') || '[]'); }
         function setCart(cart) { localStorage.setItem('cart', JSON.stringify(cart)); }
+        
+        // METHODE FRUITS : Favoris
+        function getFavorites() { return JSON.parse(localStorage.getItem('favorites') || '[]'); }
+        function setFavorites(favs) { localStorage.setItem('favorites', JSON.stringify(favs)); }
+
         function formatEuro(n) { return n.toFixed(2).replace('.', ',') + ' €'; }
 
         function updateCartBadge() {
@@ -354,15 +358,16 @@
             mini.querySelector('.mini-cart__qty').textContent = `Qté : ${item.qty}`;
             mini.querySelector('.mini-cart__sum').textContent = formatEuro(total);
 
+            mini.style.display = 'block';
+            setTimeout(() => mini.classList.add('show'), 10);
+            
+            // POUBELLE RESTAURÉE
             mini.querySelector('.mini-cart__trash').onclick = () => {
-                let currentCart = getCart().filter(i => i.id !== item.id);
-                setCart(currentCart);
+                let c = getCart().filter(i => i.id !== item.id);
+                setCart(c);
                 updateCartBadge();
                 hideMiniCart();
             };
-
-            mini.style.display = 'block';
-            setTimeout(() => mini.classList.add('show'), 10);
         }
 
         function hideMiniCart() {
@@ -371,42 +376,55 @@
             setTimeout(() => mini.style.display = 'none', 300);
         }
 
+        // --- INITIALISATION PRODUITS ---
         document.querySelectorAll('.product-card').forEach(card => {
             const qtyInput = card.querySelector('.kg-input');
             const favBtn = card.querySelector('.favorite-icon');
+            const name = card.querySelector('h3').textContent;
+            const priceText = card.querySelector('p').textContent;
+            const image = card.querySelector('img').src;
+            const id = name.toLowerCase().replace(/\s+/g, '-');
 
-            // LOGIQUE INVERSE DES FAVORIS
+            // Vérif favoris au chargement
+            let currentFavs = getFavorites();
+            if (currentFavs.some(f => f.id === id)) {
+                favBtn.classList.add('active');
+            }
+
+            // GESTION CLIC CŒUR (IDENTIQUE FRUITS)
             favBtn.onclick = function() {
-                const isFavorite = this.classList.contains('active');
-                
-                if (isFavorite) {
+                let favorites = getFavorites();
+                const index = favorites.findIndex(f => f.id === id);
+
+                if (index > -1) {
+                    favorites.splice(index, 1);
                     this.classList.remove('active');
                     showFavoritePopup("Article retiré des favoris");
                 } else {
+                    favorites.push({ id, name, price: priceText, image });
                     this.classList.add('active');
                     showFavoritePopup("Article ajouté aux favoris");
                 }
+                setFavorites(favorites);
             };
 
+            // Steppers
             card.querySelector('.step-up').onclick = () => qtyInput.value = (+qtyInput.value || 0) + 1;
             card.querySelector('.step-down').onclick = () => qtyInput.value = Math.max(0, (+qtyInput.value || 0) - 1);
 
+            // Panier
             card.querySelector('.add-to-cart').onclick = () => {
                 const qty = parseFloat(qtyInput.value);
                 if (qty <= 0) return;
 
-                const name = card.querySelector('h3').textContent;
-                const price = parsePrice(card.querySelector('p').textContent);
-                const image = card.querySelector('img').src;
-                const id = name.toLowerCase().replace(/\s+/g, '-');
-
+                const priceValue = parsePrice(priceText);
                 let cart = getCart();
                 let existing = cart.find(i => i.id === id);
-                if (existing) existing.qty += qty; else cart.push({ id, name, price, qty, image });
+                if (existing) existing.qty += qty; else cart.push({ id, name, price: priceValue, qty, image });
 
                 setCart(cart);
                 updateCartBadge();
-                showMiniCart({ id, name, price, qty, image });
+                showMiniCart({ id, name, price: priceValue, qty, image });
             };
         });
 
