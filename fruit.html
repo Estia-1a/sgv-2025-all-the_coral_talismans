@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -5,16 +6,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marché de Bidart</title>
     <link rel="stylesheet" href="stylesfruits.css">
+
+    <style>
+
+      .mini-cart {
+        position: fixed;       
+        top: 80px;             
+        right: 16px;
+        width: 340px;
+        max-width: 90vw;
+        background: #fff;
+        border: 1px solid #e6e6e6;
+        border-radius: 8px;
+        box-shadow: 0 12px 30px rgba(0,0,0,.15);
+        z-index: 9999;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(-8px);
+        transition: opacity .25s ease, transform .25s ease;
+        display: none;
+      }
+      .mini-cart.show { opacity: 1; transform: translateY(0); display: block; }
+
+
+      .mini-cart__header {
+        display: grid;
+        grid-template-columns: 1fr auto auto;
+        gap: 8px;
+        align-items: center;
+        padding: 10px 12px;
+        border-bottom: 1px solid #eee;
+        background: #fff;
+      }
+      .mini-cart__count { color: #666; font-size: .95rem; }
+      .mini-cart__close {
+        border: none; background: transparent; cursor: pointer;
+        font-size: 18px; line-height: 1; padding: 4px;
+      }
+
+
+      .mini-cart__message {
+        background: #dff3e3;   
+        color: #1e6b33;
+        padding: 10px 12px;
+        font-weight: 600;
+        border-bottom: 1px solid #cfe9d4;
+      }
+
+      .mini-cart__body {
+        display: grid;
+        grid-template-columns: 72px 1fr auto;
+        gap: 12px;
+        align-items: center;
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+      }
+      .mini-cart__image {
+        width: 72px; height: 72px; object-fit: cover; border-radius: 6px; border: 1px solid #eee;
+      }
+      .mini-cart__title { font-weight: 600; margin-bottom: 4px; }
+      .mini-cart__meta { color: #555; display: flex; gap: 12px; }
+      .mini-cart__trash {
+        border: 1px solid #ddd; background: #fff; border-radius: 6px; padding: 6px; cursor: pointer;
+      }
+      .mini-cart__trash:hover { background: #f5f5f5; }
+
+      .mini-cart__footer { padding: 12px; }
+      .mini-cart__subtotal {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 8px 0; border-bottom: 1px solid #eee; margin-bottom: 12px;
+      }
+      .mini-cart__actions { display: flex; gap: 8px; }
+      .btn {
+        display: inline-block; text-align: center;
+        padding: .6rem 1rem; border-radius: 6px; text-decoration: none; font-weight: 600;
+      }
+      .btn-secondary { color: #333; background: #f0f0f0; border: 1px solid #ddd; }
+      .btn-secondary:hover { background: #e8e8e8; }
+      .btn-primary { color: #fff; background: #108a00; border: 1px solid #0a6c00; }
+      .btn-primary:hover { filter: brightness(1.05); }
+      .mini-cart__shipping { margin-top: 10px; color: #666; font-size: .9rem; }
+
+
+      .bouton.badge { position: relative; padding-right: 24px; }
+      .bouton.badge::after {
+        content: attr(data-count);
+        position: absolute; top: -6px; right: -10px;
+        min-width: 20px; height: 20px; line-height: 20px; text-align: center;
+        background: #ff3b30; color: #fff; border-radius: 999px; font-size: 12px; padding: 0 6px;
+        box-shadow: 0 2px 6px rgba(0,0,0,.2);
+      }
+    </style>
 </head>
 <body>
     <div class="content">
 
         <header class="search-section">
+
             <nav class="top-left">
                 <a href="index.html" class="bouton">Accueil</a>&nbsp;
             </nav>
+
             <nav class="top-left">
-                <a href="légumes.html" class="bouton">Légumes</a><br>
+                <a href="fruit.html" class="bouton">Fruits</a>
             </nav>
 
             <div class="search-bar">
@@ -26,9 +120,8 @@
             <nav class="top-right">
                 <a href="panier.html" class="bouton">Panier</a>
             </nav>
-          </header>
-          
-          
+        </header>
+
         <main class="product-grid">
             <div class="product-card">
                 <img src="https://www.lanutrition.fr/sites/default/files/ressources/abricots_fond_blanc.jpg" alt="Abricot">
@@ -63,7 +156,7 @@
                     <span class="favorite-icon">&hearts;</span>
                 </div>
             </div>
-
+            
             <div class="product-card">
                 <img src="https://www.jaimefruitsetlegumes.ca/wp-content/uploads/2019/09/Fraise-700x700.png" alt="Fraise">
                 <div class="product-info">
@@ -98,7 +191,7 @@
                 </div>
             </div>
 
-             <div class="product-card">
+            <div class="product-card">
                 <img src="https://produits.bienmanger.com/34887-0w470h470_Pommes_Royal_Gala_France_Bio.jpg" alt="Pomme">
                 <div class="product-info">
                     <h3>Pomme gala bio de Bidart</h3>
@@ -115,7 +208,7 @@
                 </div>
             </div>
 
-             <div class="product-card">
+            <div class="product-card">
                 <img src="https://locavor.fr/data/produits/2/31178/31178-pomme-granny-smith-1.jpg" alt="Pomme">
                 <div class="product-info">
                     <h3>Pomme granny smith bio de Bidart</h3>
@@ -150,68 +243,167 @@
             </div>
         </main>
     </div>
-    
-<script>
-    // Extrait le prix (nombre) et l'unité depuis "à **X,XX€** le kilo/pièce"
-    function parsePriceInfo(text) {
-      const clean = (text || '').replace(/\*\*/g, '');
-      const priceMatch = clean.match(/(\d+(?:[.,]\d+)?)\s*€/);
-      const unitMatch = clean.match(/\b(kilo|kg|pi[eè]ce)\b/i);
-      const price = priceMatch ? parseFloat(priceMatch[1].replace(',', '.')) : 0;
-      const unit = unitMatch ? unitMatch[0].toLowerCase() : '';
-      return { price, unit: unit === 'kg' ? 'kilo' : unit };
-    }
-  
-    function getCart() {
-      try { return JSON.parse(localStorage.getItem('cart') || '[]'); }
-      catch { return []; }
-    }
-    function setCart(cart) {
-      localStorage.setItem('cart', JSON.stringify(cart));
-    }
-  
-    document.querySelectorAll('.product-card').forEach(card => {
-      const name = card.querySelector('h3')?.textContent.trim() || 'Article';
-      const priceText = card.querySelector('.product-info p')?.textContent.trim() || '';
-      const { price, unit } = parsePriceInfo(priceText);
-      const qtyInput = card.querySelector('.kg-input');
-      const addBtn = card.querySelector('.add-to-cart');
-      const image = card.querySelector('img')?.src || '';
-  
-      // Stepper ▲ ▼ (optionnel)
-      const stepUp = card.querySelector('.step-up');
-      const stepDown = card.querySelector('.step-down');
-      if (stepUp && qtyInput) stepUp.addEventListener('click', () => qtyInput.value = (+qtyInput.value || 0) + 1);
-      if (stepDown && qtyInput) stepDown.addEventListener('click', () => qtyInput.value = Math.max(0, (+qtyInput.value || 0) - 1));
-  
-      addBtn?.addEventListener('click', () => {
-        const qty = Math.max(0, parseFloat(qtyInput?.value || '0'));
-        if (!qty) {
-          alert('Choisis une quantité avant d’ajouter au panier ✋');
-          return;
-        }
-  
-        // Identifiant basé sur le nom
-        const id = name.toLowerCase()
-          .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-          .replace(/[^a-z0-9]+/g, '-');
-  
+
+    <!-- Bannière Mini-panier -->
+    <div id="miniCart" class="mini-cart" role="dialog" aria-live="polite" aria-modal="false" aria-label="Mini panier">
+      <div class="mini-cart__header">
+        <strong>Mon panier</strong>
+        <span class="mini-cart__count">0 article</span>
+        <button class="mini-cart__close" aria-label="Fermer">✕</button>
+      </div>
+
+
+      <div class="mini-cart__body">
+        <img class="mini-cart__image" src="" alt="" />
+        <div class="mini-cart__info">
+          <div class="mini-cart__title">Nom du produit</div>
+          <div class="mini-cart__meta">
+            <span class="mini-cart__price">0,00 €</span>
+            <span class="mini-cart__qty">Qté : 1</span>
+          </div>
+        </div>
+        <button class="mini-cart__trash" title="Supprimer du panier">🗑️</button>
+      </div>
+
+      <div class="mini-cart__footer">
+        <div class="mini-cart__subtotal">
+          <span>Sous-total</span>
+          <strong class="mini-cart__sum">0,00 €</strong>
+        </div>
+        <div class="mini-cart__actions">
+          <a href="panier.html" class="btn btn-primary">Voir panier</a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Utilitaires panier
+      function parsePriceInfo(text) {
+        const clean = (text || '').replace(/\*\*/g, '');
+        const priceMatch = clean.match(/(\d+(?:[.,]\d+)?)\s*€/);
+        const unitMatch = clean.match(/\b(kilo|kg|pi[eè]ce)\b/i);
+        const price = priceMatch ? parseFloat(priceMatch[1].replace(',', '.')) : 0;
+        const unit = unitMatch ? unitMatch[0].toLowerCase() : '';
+        return { price, unit: unit === 'kg' ? 'kilo' : unit };
+      }
+      function getCart() {
+        try { return JSON.parse(localStorage.getItem('cart') || '[]'); }
+        catch { return []; }
+      }
+      function setCart(cart) {
+        localStorage.setItem('cart', JSON.stringify(cart));
+      }
+      function formatEuro(n) {
+        const val = Number.isFinite(n) ? n : 0;
+        return val.toFixed(2).replace('.', ',') + ' €';
+      }
+
+      // Pastille sur le lien Panier
+      function updateCartBadge() {
         const cart = getCart();
-        const existing = cart.find(i => i.id === id);
-  
-        if (existing) {
-          existing.qty += qty;
-        } else {
-          cart.push({ id, name, price, unit, qty, image });
+        const count = cart.reduce((sum, i) => sum + (Number(i.qty) || 0), 0);
+        const link = document.querySelector('a[href="panier.html"].bouton');
+        if (link) {
+          link.classList.add('badge');
+          link.setAttribute('data-count', count > 0 ? String(count) : '');
         }
-  
-        setCart(cart);
-  
-        // Redirection vers le panier
-        window.location.href = 'panier.html';
+      }
+
+      // Mini-panier (affichage temporaire)
+      let miniCartTimer = null;
+      function showMiniCart(itemAdded) {
+        const mini = document.getElementById('miniCart');
+        if (!mini) return;
+
+        const cart = getCart();
+        const count = cart.reduce((sum, i) =>
+          sum + (Number(i.qty) || 0), 0);
+        const subtotal = cart.reduce((sum, i) =>
+          sum + (Number(i.price) || 0) * (Number(i.qty) || 0), 0);
+
+        mini.querySelector('.mini-cart__count').textContent =
+          `${count} ${count > 1 ? 'articles' : 'article'}`;
+        mini.querySelector('.mini-cart__image').src = itemAdded.image || '';
+        mini.querySelector('.mini-cart__image').alt = itemAdded.name || 'Produit';
+        mini.querySelector('.mini-cart__title').textContent = itemAdded.name || '';
+        mini.querySelector('.mini-cart__price').textContent = formatEuro(itemAdded.price || 0);
+        mini.querySelector('.mini-cart__qty').textContent = `Qté : ${itemAdded.qty || 1}`;
+        mini.querySelector('.mini-cart__sum').textContent = formatEuro(subtotal);
+
+        // Afficher + timer auto-hide
+        mini.style.display = 'block';
+        void mini.offsetWidth; // reflow
+        mini.classList.add('show');
+
+        if (miniCartTimer) clearTimeout(miniCartTimer);
+        miniCartTimer = setTimeout(() => { hideMiniCart(); }, 4000);
+
+        // Fermer
+        mini.querySelector('.mini-cart__close').onclick = hideMiniCart;
+
+        // Supprimer juste l'article ajouté
+        mini.querySelector('.mini-cart__trash').onclick = () => {
+          let c = getCart();
+          c = c.filter(i => i.id !== itemAdded.id);
+          setCart(c);
+          updateCartBadge();
+          hideMiniCart();
+        };
+      }
+      function hideMiniCart() {
+        const mini = document.getElementById('miniCart');
+        if (!mini) return;
+        mini.classList.remove('show');
+        setTimeout(() => { mini.style.display = 'none'; }, 250);
+      }
+
+      // Attache les handlers sur les cartes produits
+      document.querySelectorAll('.product-card').forEach(card => {
+        const name = card.querySelector('h3')?.textContent.trim() || 'Article';
+        const priceText = card.querySelector('.product-info p')?.textContent.trim() || '';
+        const { price, unit } = parsePriceInfo(priceText);
+        const qtyInput = card.querySelector('.kg-input');
+        const addBtn = card.querySelector('.add-to-cart');
+        const image = card.querySelector('img')?.src || '';
+
+        // Stepper 
+        const stepUp = card.querySelector('.step-up');
+        const stepDown = card.querySelector('.step-down');
+        if (stepUp && qtyInput) stepUp.addEventListener('click', () => qtyInput.value = (+qtyInput.value || 0) + 1);
+        if (stepDown && qtyInput) stepDown.addEventListener('click', () => qtyInput.value = Math.max(0, (+qtyInput.value || 0) - 1));
+
+        addBtn?.addEventListener('click', () => {
+          const qty = Math.max(0, parseFloat(qtyInput?.value || '0'));
+          if (!qty) {
+            // petit message si quantité 0 (optionnel)
+            showMiniCart({ id: 'noop', name: 'Choisissez une quantité avant d’ajouter ', price: 0, qty: 0, image: '' });
+            return;
+          }
+
+          // Identifiant basé sur le nom 
+          const id = name.toLowerCase()
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+            .replace(/[^a-z0-9]+/g, '-');
+
+          const cart = getCart();
+          const existing = cart.find(i => i.id === id);
+
+          if (existing) {
+            existing.qty += qty;
+          } else {
+            cart.push({ id, name, price, unit, qty, image });
+          }
+          setCart(cart);
+
+          //  Afficher la bannière et mettre à jour le badge
+          showMiniCart({ id, name, price, qty, image });
+          updateCartBadge();
+
+        });
       });
-    });
-  </script>
-  
+
+      // Pastille panier au chargement
+      document.addEventListener('DOMContentLoaded', updateCartBadge);
+    </script>
 </body>
 </html>
