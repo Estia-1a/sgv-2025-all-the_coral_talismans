@@ -1,67 +1,121 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Les légumes et fruits de Bidart</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
 
-            /* Image de fond */
+    <style>
+        :root {
+            --vert: #4CAF50;
+            --fond-section: #eef3ec;
+            --fond-section-2: #e4ede0;
+            --carte: #fcfcfa;
+            --texte: #333;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: var(--texte);
             background-image: url("https://www.en-pays-basque.fr/wp-content/uploads/2020/08/bidart-marche-et-village-pierre-chambion-1024x683.jpg");
             background-size: cover;
             background-position: center;
-            background-repeat: no-repeat;
             background-attachment: fixed;
         }
 
-        /* Conteneur de la “première page” */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            z-index: -1;
+        }
+
+        /* HERO */
         .hero {
+            min-height: 100vh;
+            padding: 60px 20px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center; /* centre verticalement */
-            min-height: 100vh; /* occupe tout l’écran */
-            text-align: center;
-            padding: 20px;
-        }
-
-        h1 {
-            margin-bottom: 40px;
-            color: white;
-            text-shadow: 2px 2px 5px black;
-            font-size: 3em;
-        }
-
-        .circle-container {
-            width: 100%;
-            display: flex;
             justify-content: center;
-            gap: 200px; /* plus d’espace entre les cercles */
-            margin-bottom: 40px; /* espace sous les cercles */
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero h1 {
+            color: white;
+            font-size: 3.2rem;
+            margin-bottom: 10px;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.6);
+        }
+
+        .hero p {
+            color: #f0f0f0;
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin-bottom: 60px;
+        }
+
+        /* CIRCLES */
+        .circle-container {
+            display: flex;
+            gap: 160px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .circle {
-            width: 220px; /* cercles plus grands */
-            height: 220px;
+            width: 230px;
+            height: 230px;
             border-radius: 50%;
-            background-color: white;
-            border: 2px solid black;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            overflow: hidden;
             background-size: cover;
             background-position: center;
             position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.45);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .circle:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+        }
+
+        .circle::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.35);
+            border-radius: 50%;
+        }
+
+        .circle a {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
             color: white;
-            font-weight: bold;
-            font-size: 20px;
-            text-shadow: 1px 1px 3px black;
-            padding-bottom: 10px;
+            z-index: 1;
+            font-weight: 600;
+        }
+
+        .circle span {
+            font-size: 24px;
+            letter-spacing: 1px;
+        }
+
+        .circle small {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-top: 6px;
         }
 
         .circle.legumes {
@@ -72,83 +126,148 @@
             background-image: url("https://th.bing.com/th/id/OIP.74L1tQJeO5RJeCqyLFyWPAHaFb?w=203&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3");
         }
 
+        /* SEARCH */
         .search-box {
             display: flex;
-            width: 50%;
-            max-width: 500px;
-            margin-bottom: 40px; /* espace sous la barre de recherche */
+            width: 100%;
+            max-width: 480px;
         }
 
-        .search-box input[type="text"] {
+        .search-box input {
             flex: 1;
-            padding: 15px; /* plus grand pour la barre de recherche */
-            font-size: 18px;
-            border: 2px solid #ccc;
-            border-right: none;
-            border-radius: 5px 0 0 5px;
+            padding: 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px 0 0 6px;
             outline: none;
         }
 
         .search-box button {
             padding: 15px 25px;
-            font-size: 18px;
-            border: 2px solid #ccc;
-            border-left: none;
-            border-radius: 0 5px 5px 0;
-            background-color: #4CAF50;
+            border: none;
+            background: var(--vert);
             color: white;
+            font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            border-radius: 0 6px 6px 0;
         }
 
         .search-box button:hover {
-            background-color: #45a049;
+            background: #3f9e46;
         }
 
-        /* Texte en-dessous centré horizontalement */
-        .text-box {
-            width: 80%;
-            margin-left: auto;  /* centre horizontalement */
-            margin-right: auto; /* centre horizontalement */
-            background-color: rgba(255, 255, 255, 0.85);
-            border: 2px solid black;
-            padding: 20px;
-            line-height: 1.6;
-            margin-top: 100px; /* espace avant le texte */
+        /* SECTION TEXTE */
+        .content {
+            background: linear-gradient(180deg, var(--fond-section) 0%, var(--fond-section-2) 100%);
+            padding: 100px 20px;
+        }
+
+        .content-box {
+            max-width: 1000px;
+            margin: auto;
+            background: var(--carte);
+            padding: 60px;
+            border-radius: 16px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.18);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .content-box h2 {
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .values {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
             margin-bottom: 40px;
+        }
+
+        .value {
+            text-align: center;
+        }
+
+        .value h3 {
+            color: var(--vert);
+            margin-bottom: 10px;
+        }
+
+        .content-box p {
+            line-height: 1.8;
+            margin-bottom: 18px;
+        }
+
+        @media (max-width: 768px) {
+            .circle-container {
+                gap: 60px;
+            }
+
+            .hero h1 {
+                font-size: 2.4rem;
+            }
+
+            .content-box {
+                padding: 40px 30px;
+            }
         }
     </style>
 </head>
+
 <body>
 
-    <!-- Première page / section visible -->
-    <div class="hero">
+    <section class="hero">
         <h1>Les légumes et fruits de Bidart</h1>
+        <p>Producteur local au cœur du Pays Basque, nous cultivons des fruits et légumes de saison, en circuit court et dans le respect de la terre.</p>
 
         <div class="circle-container">
             <div class="circle legumes">
-                <a href="Légumes.html"class="bouton">Légumes</a>
+                <a href="Légumes.html">
+                    <span>Légumes</span>
+                    <small>Découvrir nos produits</small>
+                </a>
             </div>
+
             <div class="circle fruits">
-                 <a href="fruit.html"class="bouton">Fruits</a>
+                <a href="fruit.html">
+                    <span>Fruits</span>
+                    <small>Découvrir nos produits</small>
+                </a>
             </div>
         </div>
 
         <div class="search-box">
-            <input type="text" placeholder="Rechercher...">
+            <input type="text" placeholder="Rechercher un produit...">
             <button>Rechercher</button>
         </div>
-    </div>
+    </section>
 
-    <!-- Section texte en-dessous -->
-    <div class="text-box">
-        Au cœur du Pays Basque, notre exploitation maraîchère familiale cultive les terres fertiles de Bidart depuis plusieurs générations.<br><br>
-        Entre océan et collines, nous bénéficions d'un climat privilégié qui donne à nos fruits et légumes des saveurs authentiques.<br><br>
-        Sur nos parcelles, nous cultivons une grande diversité de produits au rythme des saisons : tomates, courgettes, haricots verts, salades fraîches et légumes savoureux. Chaque récolte est effectuée à maturité pour vous garantir une qualité optimale.<br><br>
-        Notre approche repose sur le respect de la terre et des cycles naturels. Nous privilégions des méthodes de culture raisonnée afin de proposer des produits sains, goûteux et respectueux de l'environnement.<br><br>
-        En circuit court, nous vous offrons des produits fraîchement récoltés, cueillis le matin même. Cette proximité nous permet de partager notre passion et de vous faire découvrir les véritables saveurs du terroir basque.<br><br>
-        Venez goûter aux fruits de notre travail et de notre terre !
-    </div>
+    <section class="content">
+        <div class="content-box">
+            <h2>Une agriculture locale et engagée</h2>
+
+            <div class="values">
+                <div class="value">
+                    <h3>🌱 Circuit court</h3>
+                    <p>Des produits cultivés localement et vendus sans intermédiaires.</p>
+                </div>
+                <div class="value">
+                    <h3>🌊 Terroir basque</h3>
+                    <p>Un climat unique entre océan et collines.</p>
+                </div>
+                <div class="value">
+                    <h3>🍅 Qualité & saisonnalité</h3>
+                    <p>Des récoltes à maturité, au rythme des saisons.</p>
+                </div>
+            </div>
+
+            <p>Au cœur du Pays Basque, notre exploitation maraîchère familiale cultive les terres fertiles de Bidart depuis plusieurs générations.</p>
+            <p>Nous privilégions des méthodes de culture raisonnée, respectueuses de l’environnement et des cycles naturels.</p>
+            <p>Chaque matin, nous récoltons des produits frais afin de vous offrir le meilleur de notre terroir.</p>
+            <p><strong>Venez goûter aux fruits de notre travail et de notre terre.</strong></p>
+        </div>
+    </section>
 
 </body>
 </html>
