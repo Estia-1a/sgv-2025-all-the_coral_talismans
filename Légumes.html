@@ -41,7 +41,7 @@
         }
 
         .search-bar {
-            flex: 1; /* Étire la barre de recherche */
+            flex: 1;
             display: flex;
             align-items: center;
             background: #f1f1f1;
@@ -77,7 +77,7 @@
             height: 180px; 
             overflow: hidden;
             border: 1px solid #eee;
-            position: relative; /* Pour ancrer le cœur */
+            position: relative;
         }
 
         .product-card img {
@@ -120,7 +120,6 @@
             cursor: pointer;
         }
 
-        /* --- LE CŒUR ANCRÉ --- */
         .favorite-icon {
             position: absolute;
             bottom: 12px;
@@ -148,7 +147,7 @@
         }
         .mini-cart.show { display: block; opacity: 1; }
         .mini-cart__header { display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #eee; font-weight: bold; }
-        .mini-cart__body { display: flex; gap: 15px; padding: 15px; align-items: center; }
+        .mini-cart__body { display: flex; gap: 15px; padding: 15px; align-items: center; position: relative; }
         .mini-cart__image { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; }
         .mini-cart__trash { border: none; background: none; cursor: pointer; font-size: 18px; margin-left: auto;}
         .btn-primary { background: var(--vert-premium); color: white; text-decoration: none; padding: 12px; display: block; text-align: center; border-radius: 8px; margin: 15px; font-weight: bold; }
@@ -174,7 +173,7 @@
 
         <div class="search-bar">
             <span>🔍</span>
-            <input type="text" placeholder="Rechercher des légumes frais...">
+            <input type="text" placeholder="Rechercher des produits frais...">
             <span>🎤</span>
         </div>
 
@@ -366,6 +365,14 @@
             mini.querySelector('.mini-cart__price').textContent = formatEuro(item.price);
             mini.querySelector('.mini-cart__qty').textContent = `Qté : ${item.qty}`;
             mini.querySelector('.mini-cart__sum').textContent = formatEuro(total);
+
+            // CORRECTION : Ajout de l'action de suppression sur la poubelle
+            mini.querySelector('.mini-cart__trash').onclick = () => {
+                let currentCart = getCart().filter(i => i.id !== item.id);
+                setCart(currentCart);
+                updateCartBadge();
+                hideMiniCart();
+            };
 
             mini.style.display = 'block';
             setTimeout(() => mini.classList.add('show'), 10);
