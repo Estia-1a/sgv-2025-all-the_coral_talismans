@@ -1,409 +1,392 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marché de Bidart</title>
-    <link rel="stylesheet" href="stylesfruits.css">
-
     <style>
+        :root {
+            --vert-premium: #108a00;
+            --shadow: 0 10px 25px rgba(0,0,0,.08);
+            --radius: 14px;
+        }
 
-      .mini-cart {
-        position: fixed;       
-        top: 80px;             
-        right: 16px;
-        width: 340px;
-        max-width: 90vw;
-        background: #fff;
-        border: 1px solid #e6e6e6;
-        border-radius: 8px;
-        box-shadow: 0 12px 30px rgba(0,0,0,.15);
-        z-index: 9999;
-        overflow: hidden;
-        opacity: 0;
-        transform: translateY(-8px);
-        transition: opacity .25s ease, transform .25s ease;
-        display: none;
-      }
-      .mini-cart.show { opacity: 1; transform: translateY(0); display: block; }
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f8f9fa;
+        }
 
+        /* --- HEADER MODERNE & EXTENSIBLE --- */
+        .search-section {
+            display: flex;
+            align-items: center;
+            padding: 12px 24px;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            gap: 20px;
+        }
 
-      .mini-cart__header {
-        display: grid;
-        grid-template-columns: 1fr auto auto;
-        gap: 8px;
-        align-items: center;
-        padding: 10px 12px;
-        border-bottom: 1px solid #eee;
-        background: #fff;
-      }
-      .mini-cart__count { color: #666; font-size: .95rem; }
-      .mini-cart__close {
-        border: none; background: transparent; cursor: pointer;
-        font-size: 18px; line-height: 1; padding: 4px;
-      }
+        .top-left { display: flex; gap: 15px; }
 
+        .bouton {
+            text-decoration: none;
+            color: var(--vert-premium);
+            font-weight: 600;
+            padding: 8px 12px;
+            white-space: nowrap;
+        }
 
-      .mini-cart__message {
-        background: #dff3e3;   
-        color: #1e6b33;
-        padding: 10px 12px;
-        font-weight: 600;
-        border-bottom: 1px solid #cfe9d4;
-      }
+        .search-bar {
+            flex: 1; /* Force la barre à prendre tout l'espace central */
+            display: flex;
+            align-items: center;
+            background: #f1f1f1;
+            padding: 8px 18px;
+            border-radius: 999px;
+        }
 
-      .mini-cart__body {
-        display: grid;
-        grid-template-columns: 72px 1fr auto;
-        gap: 12px;
-        align-items: center;
-        padding: 12px;
-        border-bottom: 1px solid #eee;
-      }
-      .mini-cart__image {
-        width: 72px; height: 72px; object-fit: cover; border-radius: 6px; border: 1px solid #eee;
-      }
-      .mini-cart__title { font-weight: 600; margin-bottom: 4px; }
-      .mini-cart__meta { color: #555; display: flex; gap: 12px; }
-      .mini-cart__trash {
-        border: 1px solid #ddd; background: #fff; border-radius: 6px; padding: 6px; cursor: pointer;
-      }
-      .mini-cart__trash:hover { background: #f5f5f5; }
+        .search-bar input {
+            border: none;
+            outline: none;
+            background: transparent;
+            width: 100%;
+            padding: 0 10px;
+            font-size: 15px;
+        }
 
-      .mini-cart__footer { padding: 12px; }
-      .mini-cart__subtotal {
-        display: flex; justify-content: space-between; align-items: center;
-        padding: 8px 0; border-bottom: 1px solid #eee; margin-bottom: 12px;
-      }
-      .mini-cart__actions { display: flex; gap: 8px; }
-      .btn {
-        display: inline-block; text-align: center;
-        padding: .6rem 1rem; border-radius: 6px; text-decoration: none; font-weight: 600;
-      }
-      .btn-secondary { color: #333; background: #f0f0f0; border: 1px solid #ddd; }
-      .btn-secondary:hover { background: #e8e8e8; }
-      .btn-primary { color: #fff; background: #108a00; border: 1px solid #0a6c00; }
-      .btn-primary:hover { filter: brightness(1.05); }
-      .mini-cart__shipping { margin-top: 10px; color: #666; font-size: .9rem; }
+        /* --- GRILLE DE PRODUITS --- */
+        .product-grid {
+            max-width: 1300px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 24px;
+        }
 
+        /* --- CARTE PRODUIT --- */
+        .product-card {
+            background: #fff;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            display: flex;
+            height: 180px; 
+            overflow: hidden;
+            border: 1px solid #eee;
+            position: relative; /* Pour positionner le cœur */
+        }
 
-      .bouton.badge { position: relative; padding-right: 24px; }
-      .bouton.badge::after {
-        content: attr(data-count);
-        position: absolute; top: -6px; right: -10px;
-        min-width: 20px; height: 20px; line-height: 20px; text-align: center;
-        background: #ff3b30; color: #fff; border-radius: 999px; font-size: 12px; padding: 0 6px;
-        box-shadow: 0 2px 6px rgba(0,0,0,.2);
-      }
+        .product-card img {
+            width: 135px;
+            height: 100%;
+            object-fit: contain;
+            background: #fafafa;
+            padding: 10px;
+        }
+
+        .product-info {
+            padding: 16px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-info h3 { margin: 0; font-size: 1.1rem; color: var(--vert-premium); }
+        .product-info p { margin: 4px 0; color: #d00000; font-weight: bold; }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .kg-input { 
+            width: 45px; 
+            border: 1px solid #ddd; 
+            border-radius: 6px; 
+            text-align: center;
+        }
+
+        .stepper { display: flex; flex-direction: column; cursor: pointer; font-size: 10px; color: #888; }
+
+        .add-to-cart {
+            background: #0070f3;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        /* --- LE CŒUR FIXE --- */
+        .favorite-icon {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            color: #ff4d8d;
+            font-size: 22px;
+            cursor: pointer;
+            z-index: 10;
+            background: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* --- MINI PANIER --- */
+        .mini-cart {
+            position: fixed; top: 80px; right: 16px; width: 340px;
+            background: #fff; border-radius: 12px; box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            z-index: 9999; display: none; opacity: 0; transition: all 0.3s;
+            border: 1px solid #eee;
+        }
+        .mini-cart.show { display: block; opacity: 1; }
+        .mini-cart__header { display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #eee; font-weight: bold; }
+        .mini-cart__body { display: flex; gap: 15px; padding: 15px; align-items: center; position: relative;}
+        .mini-cart__image { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; }
+        .mini-cart__trash { border: none; background: none; cursor: pointer; font-size: 18px; margin-left: auto;}
+        .btn-primary { background: var(--vert-premium); color: white; text-decoration: none; padding: 12px; display: block; text-align: center; border-radius: 8px; margin: 15px; font-weight: bold; }
+        .mini-cart__subtotal { display: flex; justify-content: space-between; padding: 0 15px; font-weight: bold;}
+
+        /* BADGE PANIER */
+        .bouton.badge { position: relative; }
+        .bouton.badge::after {
+            content: attr(data-count);
+            position: absolute; top: -5px; right: -5px;
+            background: #ff3b30; color: white; border-radius: 50%; width: 20px; height: 20px;
+            display: flex; align-items: center; justify-content: center; font-size: 11px;
+        }
     </style>
 </head>
 <body>
-    <div class="content">
 
-        <header class="search-section">
+    <header class="search-section">
+        <nav class="top-left">
+            <a href="index.html" class="bouton">Accueil</a>
+            <a href="fruit.html" class="bouton">Fruits</a>
+        </nav>
 
-            <nav class="top-left">
-                <a href="index.html" class="bouton">Accueil</a>&nbsp;
-            </nav>
-
-            <nav class="top-left">
-                <a href="fruit.html" class="bouton">Fruits</a>
-            </nav>
-
-            <div class="search-bar">
-              <span class="search-icon">🔍</span>
-              <input type="text" placeholder="Rechercher fruits">
-              <span class="mic-icon">🎤</span>
-            </div>
-
-            <nav class="top-right">
-                <a href="panier.html" class="bouton">Panier</a>
-            </nav>
-        </header>
-
-        <main class="product-grid">
-            <div class="product-card">
-                <img src="https://www.lanutrition.fr/sites/default/files/ressources/abricots_fond_blanc.jpg" alt="Abricot">
-                <div class="product-info">
-                    <h3>Abricot bio de Bidart</h3>
-                    <p>à **3,20€** le kilo</p>
-                    <div class="controls">
-                        <input type="number" value="0" min="0" class="kg-input"> Kg
-                        <div class="stepper">
-                            <span class="step-up">▲</span>
-                            <span class="step-down">▼</span>
-                        </div>
-                    </div>
-                    <button class="add-to-cart">Ajouter au panier</button>
-                    <span class="favorite-icon">&hearts;</span>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <img src="https://www.jaimefruitsetlegumes.ca/wp-content/uploads/2019/10/cerises-scaled-e1647012719735-700x700.jpg" alt="Cerise">
-                <div class="product-info">
-                    <h3>Cerise bio de Bidart</h3>
-                    <p>à **8,20€** le kilo</p>
-                    <div class="controls">
-                        <input type="number" value="0" min="0" class="kg-input"> Kg
-                        <div class="stepper">
-                            <span class="step-up">▲</span>
-                            <span class="step-down">▼</span>
-                        </div>
-                    </div>
-                    <button class="add-to-cart">Ajouter au panier</button>
-                    <span class="favorite-icon">&hearts;</span>
-                </div>
-            </div>
-            
-            <div class="product-card">
-                <img src="https://www.jaimefruitsetlegumes.ca/wp-content/uploads/2019/09/Fraise-700x700.png" alt="Fraise">
-                <div class="product-info">
-                    <h3>Fraise bio de Bidart</h3>
-                    <p>à **4,55€** le kilo</p>
-                    <div class="controls">
-                        <input type="number" value="0" min="0" class="kg-input"> Kg
-                        <div class="stepper">
-                            <span class="step-up">▲</span>
-                            <span class="step-down">▼</span>
-                        </div>
-                    </div>
-                    <button class="add-to-cart">Ajouter au panier</button>
-                    <span class="favorite-icon">&hearts;</span>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <img src="https://lh6.googleusercontent.com/proxy/iPCi-8Liv2_utnL-28oSwEzlDxy4khvq5N5ntd8P8lbn6zLQFirXFQ8r_UaDrZgFEfntHdF3PoV4TfPD3f0G_h1EpbqYn0Ag-eI-ZzvrwZuP9LK911DS7USzkqhY-wYKCOs_5fMZ3LLw7aVi8lDfMV4En5k" alt="Mirabelle">
-                <div class="product-info">
-                    <h3>Mirabelle bio de Bidart</h3>
-                    <p>à **2,55€** le kilo</p>
-                    <div class="controls">
-                        <input type="number" value="0" min="0" class="kg-input"> Kg
-                        <div class="stepper">
-                            <span class="step-up">▲</span>
-                            <span class="step-down">▼</span>
-                        </div>
-                    </div>
-                    <button class="add-to-cart">Ajouter au panier</button>
-                    <span class="favorite-icon">&hearts;</span>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <img src="https://produits.bienmanger.com/34887-0w470h470_Pommes_Royal_Gala_France_Bio.jpg" alt="Pomme">
-                <div class="product-info">
-                    <h3>Pomme gala bio de Bidart</h3>
-                    <p>à **2,20€** le kilo</p>
-                    <div class="controls">
-                        <input type="number" value="0" min="0" class="kg-input"> Kg
-                        <div class="stepper">
-                            <span class="step-up">▲</span>
-                            <span class="step-down">▼</span>
-                        </div>
-                    </div>
-                    <button class="add-to-cart">Ajouter au panier</button>
-                    <span class="favorite-icon">&hearts;</span>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <img src="https://locavor.fr/data/produits/2/31178/31178-pomme-granny-smith-1.jpg" alt="Pomme">
-                <div class="product-info">
-                    <h3>Pomme granny smith bio de Bidart</h3>
-                    <p>à **2,80€** le kilo</p>
-                    <div class="controls">
-                        <input type="number" value="0" min="0" class="kg-input"> Kg
-                        <div class="stepper">
-                            <span class="step-up">▲</span>
-                            <span class="step-down">▼</span>
-                        </div>
-                    </div>
-                    <button class="add-to-cart">Ajouter au panier</button>
-                    <span class="favorite-icon">&hearts;</span>
-                </div>
-            </div>
-            
-            <div class="product-card">
-                <img src="https://www.fruits-vaud-geneve.ch/kcfinder/upload/images/fruits/prunes%20et%20%20pruneaux.png" alt="Pruneau">
-                <div class="product-info">
-                    <h3>Pruneau bio de Bidart</h3>
-                    <p>à **3,10€** le kilo</p>
-                    <div class="controls">
-                        <input type="number" value="0" min="0" class="kg-input"> Kg
-                        <div class="stepper">
-                            <span class="step-up">▲</span>
-                            <span class="step-down">▼</span>
-                        </div>
-                    </div>
-                    <button class="add-to-cart">Ajouter au panier</button>
-                    <span class="favorite-icon">&hearts;</span>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <!-- Bannière Mini-panier -->
-    <div id="miniCart" class="mini-cart" role="dialog" aria-live="polite" aria-modal="false" aria-label="Mini panier">
-      <div class="mini-cart__header">
-        <strong>Mon panier</strong>
-        <span class="mini-cart__count">0 article</span>
-        <button class="mini-cart__close" aria-label="Fermer">✕</button>
-      </div>
-
-
-      <div class="mini-cart__body">
-        <img class="mini-cart__image" src="" alt="" />
-        <div class="mini-cart__info">
-          <div class="mini-cart__title">Nom du produit</div>
-          <div class="mini-cart__meta">
-            <span class="mini-cart__price">0,00 €</span>
-            <span class="mini-cart__qty">Qté : 1</span>
-          </div>
+        <div class="search-bar">
+            <span>🔍</span>
+            <input type="text" placeholder="Rechercher des produits frais...">
+            <span>🎤</span>
         </div>
-        <button class="mini-cart__trash" title="Supprimer du panier">🗑️</button>
-      </div>
 
-      <div class="mini-cart__footer">
+        <nav class="top-right">
+            <a href="panier.html" class="bouton">Panier</a>
+        </nav>
+    </header>
+
+    <main class="product-grid">
+        <div class="product-card">
+            <img src="https://www.lanutrition.fr/sites/default/files/ressources/abricots_fond_blanc.jpg" alt="Abricot">
+            <div class="product-info">
+                <h3>Abricot bio de Bidart</h3>
+                <p>à 3,20€ le kilo</p>
+                <div class="controls">
+                    <input type="number" value="0" min="0" class="kg-input"> Kg
+                    <div class="stepper"><span class="step-up">▲</span><span class="step-down">▼</span></div>
+                </div>
+                <button class="add-to-cart">Ajouter au panier</button>
+            </div>
+            <span class="favorite-icon">♥</span>
+        </div>
+
+        <div class="product-card">
+            <img src="https://www.jaimefruitsetlegumes.ca/wp-content/uploads/2019/10/cerises-scaled-e1647012719735-700x700.jpg" alt="Cerise">
+            <div class="product-info">
+                <h3>Cerise bio de Bidart</h3>
+                <p>à 8,20€ le kilo</p>
+                <div class="controls">
+                    <input type="number" value="0" min="0" class="kg-input"> Kg
+                    <div class="stepper"><span class="step-up">▲</span><span class="step-down">▼</span></div>
+                </div>
+                <button class="add-to-cart">Ajouter au panier</button>
+            </div>
+            <span class="favorite-icon">♥</span>
+        </div>
+
+        <div class="product-card">
+            <img src="https://www.jaimefruitsetlegumes.ca/wp-content/uploads/2019/09/Fraise-700x700.png" alt="Fraise">
+            <div class="product-info">
+                <h3>Fraise bio de Bidart</h3>
+                <p>à 4,55€ le kilo</p>
+                <div class="controls">
+                    <input type="number" value="0" min="0" class="kg-input"> Kg
+                    <div class="stepper"><span class="step-up">▲</span><span class="step-down">▼</span></div>
+                </div>
+                <button class="add-to-cart">Ajouter au panier</button>
+            </div>
+            <span class="favorite-icon">♥</span>
+        </div>
+
+        <div class="product-card">
+            <img src="https://lh6.googleusercontent.com/proxy/iPCi-8Liv2_utnL-28oSwEzlDxy4khvq5N5ntd8P8lbn6zLQFirXFQ8r_UaDrZgFEfntHdF3PoV4TfPD3f0G_h1EpbqYn0Ag-eI-ZzvrwZuP9LK911DS7USzkqhY-wYKCOs_5fMZ3LLw7aVi8lDfMV4En5k" alt="Mirabelle">
+            <div class="product-info">
+                <h3>Mirabelle bio de Bidart</h3>
+                <p>à 2,55€ le kilo</p>
+                <div class="controls">
+                    <input type="number" value="0" min="0" class="kg-input"> Kg
+                    <div class="stepper"><span class="step-up">▲</span><span class="step-down">▼</span></div>
+                </div>
+                <button class="add-to-cart">Ajouter au panier</button>
+            </div>
+            <span class="favorite-icon">♥</span>
+        </div>
+
+        <div class="product-card">
+            <img src="https://produits.bienmanger.com/34887-0w470h470_Pommes_Royal_Gala_France_Bio.jpg" alt="Pomme">
+            <div class="product-info">
+                <h3>Pomme gala bio de Bidart</h3>
+                <p>à 2,20€ le kilo</p>
+                <div class="controls">
+                    <input type="number" value="0" min="0" class="kg-input"> Kg
+                    <div class="stepper"><span class="step-up">▲</span><span class="step-down">▼</span></div>
+                </div>
+                <button class="add-to-cart">Ajouter au panier</button>
+            </div>
+            <span class="favorite-icon">♥</span>
+        </div>
+
+        <div class="product-card">
+            <img src="https://locavor.fr/data/produits/2/31178/31178-pomme-granny-smith-1.jpg" alt="Pomme">
+            <div class="product-info">
+                <h3>Pomme granny smith bio</h3>
+                <p>à 2,80€ le kilo</p>
+                <div class="controls">
+                    <input type="number" value="0" min="0" class="kg-input"> Kg
+                    <div class="stepper"><span class="step-up">▲</span><span class="step-down">▼</span></div>
+                </div>
+                <button class="add-to-cart">Ajouter au panier</button>
+            </div>
+            <span class="favorite-icon">♥</span>
+        </div>
+
+        <div class="product-card">
+            <img src="https://www.fruits-vaud-geneve.ch/kcfinder/upload/images/fruits/prunes%20et%20%20pruneaux.png" alt="Pruneau">
+            <div class="product-info">
+                <h3>Pruneau bio de Bidart</h3>
+                <p>à 3,10€ le kilo</p>
+                <div class="controls">
+                    <input type="number" value="0" min="0" class="kg-input"> Kg
+                    <div class="stepper"><span class="step-up">▲</span><span class="step-down">▼</span></div>
+                </div>
+                <button class="add-to-cart">Ajouter au panier</button>
+            </div>
+            <span class="favorite-icon">♥</span>
+        </div>
+    </main>
+
+    <div id="miniCart" class="mini-cart">
+        <div class="mini-cart__header">
+            <strong>Mon panier</strong>
+            <span class="mini-cart__count">0 article</span>
+            <button onclick="hideMiniCart()" style="border:none; background:none; cursor:pointer;">✕</button>
+        </div>
+        <div class="mini-cart__body">
+            <img class="mini-cart__image" src="" alt="" />
+            <div class="mini-cart__info">
+                <div class="mini-cart__title" style="font-weight:600;">Nom</div>
+                <div class="mini-cart__meta" style="font-size: 0.9rem; color: #666;">
+                    <span class="mini-cart__price">0,00 €</span> | <span class="mini-cart__qty">Qté : 1</span>
+                </div>
+            </div>
+            <button class="mini-cart__trash">🗑️</button>
+        </div>
         <div class="mini-cart__subtotal">
-          <span>Sous-total</span>
-          <strong class="mini-cart__sum">0,00 €</strong>
+            <span>Sous-total</span>
+            <span class="mini-cart__sum">0,00 €</span>
         </div>
-        <div class="mini-cart__actions">
-          <a href="panier.html" class="btn btn-primary">Voir panier</a>
-        </div>
-      </div>
+        <a href="panier.html" class="btn-primary">Voir mon panier</a>
     </div>
 
     <script>
-      // Utilitaires panier
-      function parsePriceInfo(text) {
-        const clean = (text || '').replace(/\*\*/g, '');
-        const priceMatch = clean.match(/(\d+(?:[.,]\d+)?)\s*€/);
-        const unitMatch = clean.match(/\b(kilo|kg|pi[eè]ce)\b/i);
-        const price = priceMatch ? parseFloat(priceMatch[1].replace(',', '.')) : 0;
-        const unit = unitMatch ? unitMatch[0].toLowerCase() : '';
-        return { price, unit: unit === 'kg' ? 'kilo' : unit };
-      }
-      function getCart() {
-        try { return JSON.parse(localStorage.getItem('cart') || '[]'); }
-        catch { return []; }
-      }
-      function setCart(cart) {
-        localStorage.setItem('cart', JSON.stringify(cart));
-      }
-      function formatEuro(n) {
-        const val = Number.isFinite(n) ? n : 0;
-        return val.toFixed(2).replace('.', ',') + ' €';
-      }
-
-      // Pastille sur le lien Panier
-      function updateCartBadge() {
-        const cart = getCart();
-        const count = cart.reduce((sum, i) => sum + (Number(i.qty) || 0), 0);
-        const link = document.querySelector('a[href="panier.html"].bouton');
-        if (link) {
-          link.classList.add('badge');
-          link.setAttribute('data-count', count > 0 ? String(count) : '');
+        function parsePrice(text) {
+            const match = text.match(/(\d+[.,]\d+)/);
+            return match ? parseFloat(match[1].replace(',', '.')) : 0;
         }
-      }
 
-      // Mini-panier (affichage temporaire)
-      let miniCartTimer = null;
-      function showMiniCart(itemAdded) {
-        const mini = document.getElementById('miniCart');
-        if (!mini) return;
+        function getCart() { return JSON.parse(localStorage.getItem('cart') || '[]'); }
+        function setCart(cart) { localStorage.setItem('cart', JSON.stringify(cart)); }
+        function formatEuro(n) { return n.toFixed(2).replace('.', ',') + ' €'; }
 
-        const cart = getCart();
-        const count = cart.reduce((sum, i) =>
-          sum + (Number(i.qty) || 0), 0);
-        const subtotal = cart.reduce((sum, i) =>
-          sum + (Number(i.price) || 0) * (Number(i.qty) || 0), 0);
+        function updateCartBadge() {
+            const cart = getCart();
+            const count = cart.reduce((sum, i) => sum + i.qty, 0);
+            const link = document.querySelector('a[href="panier.html"]');
+            if (link) {
+                link.classList.toggle('badge', count > 0);
+                link.setAttribute('data-count', count);
+            }
+        }
 
-        mini.querySelector('.mini-cart__count').textContent =
-          `${count} ${count > 1 ? 'articles' : 'article'}`;
-        mini.querySelector('.mini-cart__image').src = itemAdded.image || '';
-        mini.querySelector('.mini-cart__image').alt = itemAdded.name || 'Produit';
-        mini.querySelector('.mini-cart__title').textContent = itemAdded.name || '';
-        mini.querySelector('.mini-cart__price').textContent = formatEuro(itemAdded.price || 0);
-        mini.querySelector('.mini-cart__qty').textContent = `Qté : ${itemAdded.qty || 1}`;
-        mini.querySelector('.mini-cart__sum').textContent = formatEuro(subtotal);
+        function showMiniCart(item) {
+            const mini = document.getElementById('miniCart');
+            const cart = getCart();
+            const count = cart.reduce((sum, i) => sum + i.qty, 0);
+            const total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
 
-        // Afficher + timer auto-hide
-        mini.style.display = 'block';
-        void mini.offsetWidth; // reflow
-        mini.classList.add('show');
+            mini.querySelector('.mini-cart__count').textContent = `${count} article${count>1?'s':''}`;
+            mini.querySelector('.mini-cart__image').src = item.image;
+            mini.querySelector('.mini-cart__title').textContent = item.name;
+            mini.querySelector('.mini-cart__price').textContent = formatEuro(item.price);
+            mini.querySelector('.mini-cart__qty').textContent = `Qté : ${item.qty}`;
+            mini.querySelector('.mini-cart__sum').textContent = formatEuro(total);
 
-        if (miniCartTimer) clearTimeout(miniCartTimer);
-        miniCartTimer = setTimeout(() => { hideMiniCart(); }, 4000);
+            mini.style.display = 'block';
+            setTimeout(() => mini.classList.add('show'), 10);
+            
+            // Trash icon logic
+            mini.querySelector('.mini-cart__trash').onclick = () => {
+                let c = getCart().filter(i => i.id !== item.id);
+                setCart(c);
+                updateCartBadge();
+                hideMiniCart();
+            };
+        }
 
-        // Fermer
-        mini.querySelector('.mini-cart__close').onclick = hideMiniCart;
+        function hideMiniCart() {
+            const mini = document.getElementById('miniCart');
+            mini.classList.remove('show');
+            setTimeout(() => mini.style.display = 'none', 300);
+        }
 
-        // Supprimer juste l'article ajouté
-        mini.querySelector('.mini-cart__trash').onclick = () => {
-          let c = getCart();
-          c = c.filter(i => i.id !== itemAdded.id);
-          setCart(c);
-          updateCartBadge();
-          hideMiniCart();
-        };
-      }
-      function hideMiniCart() {
-        const mini = document.getElementById('miniCart');
-        if (!mini) return;
-        mini.classList.remove('show');
-        setTimeout(() => { mini.style.display = 'none'; }, 250);
-      }
+        document.querySelectorAll('.product-card').forEach(card => {
+            const qtyInput = card.querySelector('.kg-input');
+            card.querySelector('.step-up').onclick = () => qtyInput.value = (+qtyInput.value || 0) + 1;
+            card.querySelector('.step-down').onclick = () => qtyInput.value = Math.max(0, (+qtyInput.value || 0) - 1);
 
-      // Attache les handlers sur les cartes produits
-      document.querySelectorAll('.product-card').forEach(card => {
-        const name = card.querySelector('h3')?.textContent.trim() || 'Article';
-        const priceText = card.querySelector('.product-info p')?.textContent.trim() || '';
-        const { price, unit } = parsePriceInfo(priceText);
-        const qtyInput = card.querySelector('.kg-input');
-        const addBtn = card.querySelector('.add-to-cart');
-        const image = card.querySelector('img')?.src || '';
+            card.querySelector('.add-to-cart').onclick = () => {
+                const qty = parseFloat(qtyInput.value);
+                if (qty <= 0) return;
 
-        // Stepper 
-        const stepUp = card.querySelector('.step-up');
-        const stepDown = card.querySelector('.step-down');
-        if (stepUp && qtyInput) stepUp.addEventListener('click', () => qtyInput.value = (+qtyInput.value || 0) + 1);
-        if (stepDown && qtyInput) stepDown.addEventListener('click', () => qtyInput.value = Math.max(0, (+qtyInput.value || 0) - 1));
+                const name = card.querySelector('h3').textContent;
+                const price = parsePrice(card.querySelector('p').textContent);
+                const image = card.querySelector('img').src;
+                const id = name.toLowerCase().replace(/\s+/g, '-');
 
-        addBtn?.addEventListener('click', () => {
-          const qty = Math.max(0, parseFloat(qtyInput?.value || '0'));
-          if (!qty) {
-            // petit message si quantité 0 (optionnel)
-            showMiniCart({ id: 'noop', name: 'Choisissez une quantité avant d’ajouter ', price: 0, qty: 0, image: '' });
-            return;
-          }
+                let cart = getCart();
+                let existing = cart.find(i => i.id === id);
+                if (existing) existing.qty += qty; else cart.push({ id, name, price, qty, image });
 
-          // Identifiant basé sur le nom 
-          const id = name.toLowerCase()
-            .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-            .replace(/[^a-z0-9]+/g, '-');
-
-          const cart = getCart();
-          const existing = cart.find(i => i.id === id);
-
-          if (existing) {
-            existing.qty += qty;
-          } else {
-            cart.push({ id, name, price, unit, qty, image });
-          }
-          setCart(cart);
-
-          //  Afficher la bannière et mettre à jour le badge
-          showMiniCart({ id, name, price, qty, image });
-          updateCartBadge();
-
+                setCart(cart);
+                updateCartBadge();
+                showMiniCart({ id, name, price, qty, image });
+            };
         });
-      });
 
-      // Pastille panier au chargement
-      document.addEventListener('DOMContentLoaded', updateCartBadge);
+        document.addEventListener('DOMContentLoaded', updateCartBadge);
     </script>
 </body>
 </html>
