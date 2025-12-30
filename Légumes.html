@@ -17,7 +17,30 @@
             background: #f8f9fa;
         }
 
-        /* --- HEADER EXTENSIBLE --- */
+        /* --- STYLE DU POP-UP FAVORIS --- */
+        .fav-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 10000;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            pointer-events: none;
+        }
+
+        .fav-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-10px);
+        }
+
+        /* --- HEADER --- */
         .search-section {
             display: flex;
             align-items: center;
@@ -31,32 +54,9 @@
         }
 
         .top-left { display: flex; gap: 15px; }
-
-        .bouton {
-            text-decoration: none;
-            color: var(--vert-premium);
-            font-weight: 600;
-            padding: 8px 12px;
-            white-space: nowrap;
-        }
-
-        .search-bar {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            background: #f1f1f1;
-            padding: 8px 18px;
-            border-radius: 999px;
-        }
-
-        .search-bar input {
-            border: none;
-            outline: none;
-            background: transparent;
-            width: 100%;
-            padding: 0 10px;
-            font-size: 15px;
-        }
+        .bouton { text-decoration: none; color: var(--vert-premium); font-weight: 600; padding: 8px 12px; white-space: nowrap; }
+        .search-bar { flex: 1; display: flex; align-items: center; background: #f1f1f1; padding: 8px 18px; border-radius: 999px; }
+        .search-bar input { border: none; outline: none; background: transparent; width: 100%; padding: 0 10px; font-size: 15px; }
 
         /* --- GRILLE --- */
         .product-grid {
@@ -80,51 +80,22 @@
             position: relative;
         }
 
-        .product-card img {
-            width: 135px;
-            height: 100%;
-            object-fit: contain;
-            background: #fafafa;
-            padding: 10px;
-        }
-
-        .product-info {
-            padding: 16px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
+        .product-card img { width: 135px; height: 100%; object-fit: contain; background: #fafafa; padding: 10px; }
+        .product-info { padding: 16px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
         .product-info h3 { margin: 0; font-size: 1.1rem; color: var(--vert-premium); }
         .product-info p { margin: 4px 0; color: #d00000; font-weight: bold; }
 
         .controls { display: flex; align-items: center; gap: 8px; }
-
-        .kg-input { 
-            width: 45px; 
-            border: 1px solid #ddd; 
-            border-radius: 6px; 
-            text-align: center;
-        }
-
+        .kg-input { width: 45px; border: 1px solid #ddd; border-radius: 6px; text-align: center; }
         .stepper { display: flex; flex-direction: column; cursor: pointer; font-size: 10px; color: #888; }
+        .add-to-cart { background: #0070f3; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; }
 
-        .add-to-cart {
-            background: #0070f3;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
+        /* --- LE CŒUR --- */
         .favorite-icon {
             position: absolute;
             bottom: 12px;
             right: 12px;
-            color: #ff4d8d;
+            color: #ccc; /* Couleur par défaut grise */
             font-size: 22px;
             cursor: pointer;
             z-index: 10;
@@ -136,6 +107,13 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+        }
+
+        /* Classe quand activé */
+        .favorite-icon.active {
+            color: #ff4d8d;
+            transform: scale(1.2);
         }
 
         /* --- MINI PANIER --- */
@@ -165,18 +143,18 @@
 </head>
 <body>
 
+    <div id="favToast" class="fav-toast"></div>
+
     <header class="search-section">
         <nav class="top-left">
             <a href="index.html" class="bouton">Accueil</a>
             <a href="fruit.html" class="bouton">Fruits</a>
         </nav>
-
         <div class="search-bar">
             <span>🔍</span>
             <input type="text" placeholder="Rechercher des produits frais...">
             <span>🎤</span>
         </div>
-
         <nav class="top-right">
             <a href="panier.html" class="bouton">Panier</a>
         </nav>
@@ -334,6 +312,16 @@
     </div>
 
     <script>
+        // --- GESTION DU POP-UP AVEC MESSAGE VARIABLE ---
+        function showFavoritePopup(message) {
+            const toast = document.getElementById('favToast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 1800);
+        }
+
         function parsePrice(text) {
             const match = text.match(/(\d+[.,]\d+)/);
             return match ? parseFloat(match[1].replace(',', '.')) : 0;
@@ -366,7 +354,6 @@
             mini.querySelector('.mini-cart__qty').textContent = `Qté : ${item.qty}`;
             mini.querySelector('.mini-cart__sum').textContent = formatEuro(total);
 
-            // CORRECTION : Ajout de l'action de suppression sur la poubelle
             mini.querySelector('.mini-cart__trash').onclick = () => {
                 let currentCart = getCart().filter(i => i.id !== item.id);
                 setCart(currentCart);
@@ -386,6 +373,21 @@
 
         document.querySelectorAll('.product-card').forEach(card => {
             const qtyInput = card.querySelector('.kg-input');
+            const favBtn = card.querySelector('.favorite-icon');
+
+            // LOGIQUE INVERSE DES FAVORIS
+            favBtn.onclick = function() {
+                const isFavorite = this.classList.contains('active');
+                
+                if (isFavorite) {
+                    this.classList.remove('active');
+                    showFavoritePopup("Article retiré des favoris");
+                } else {
+                    this.classList.add('active');
+                    showFavoritePopup("Article ajouté aux favoris");
+                }
+            };
+
             card.querySelector('.step-up').onclick = () => qtyInput.value = (+qtyInput.value || 0) + 1;
             card.querySelector('.step-down').onclick = () => qtyInput.value = Math.max(0, (+qtyInput.value || 0) - 1);
 
